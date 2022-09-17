@@ -15,7 +15,7 @@ import random
 class Csgo:
     def rand_weapon_from_json(self, case_name):
         # self.excel_to_json()
-        with open('case.json', encoding='utf-8') as a:
+        with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\case.json', encoding='utf-8') as a:
             result = json.load(a)
             is_find = False
             for j in range(len(result)):
@@ -111,8 +111,6 @@ class Csgo:
             if weapon_content['weapon_name'] == '输入名称有误！':
                 return weapon_content['weapon_name']
             # print(weapon_content)
-            # if weapon_content['weapon_type'] == '金':
-            pic_url.append(weapon_content['pic_url'])
 
             weapon_price = weapon_content['weapon_price']
             price = round(price + weapon_price, 2)
@@ -129,10 +127,10 @@ class Csgo:
             nl.append(n)
         cost = 16 * case_count
         diff = round(price - cost, 2)
-        msg = ''
+        msg = '抽到了：\n'
         for i in range(len(nl)):
             if nl[i]['weapon_type'] != '金':
-                msg = msg + f'抽到了{nl[i]["rqs"]}个【{nl[i]["weapon_type"]}】武器：“{nl[i]["weapon_name"]}”\n'
+                msg = msg + f'{nl[i]["rqs"]} × 【{nl[i]["weapon_type"]}】：“{nl[i]["weapon_name"]}”\n'
             else:
                 msg = msg + f'哇哦，金色传说！！恭喜你，开到了一件极其罕见的物品“{nl[i]["weapon_name"]}”！！\n'
         if diff >= 0:
@@ -172,7 +170,7 @@ class Csgo:
 
     def open_cases(self, from_wxid, case_count, case_name):
         try:
-            with open(r'/api/user_money.json', encoding='utf-8') as ml:
+            with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', encoding='utf-8') as ml:
                 res = json.load(ml)
                 ml.close()
                 for i in range(len(res)):
@@ -185,27 +183,43 @@ class Csgo:
                         if money >= case_money:
                             msg_1, diff = self.open_case_fron_json(case_count, case_name)
                             remaining_money = round(money + diff, 2)
-                            msg_2 = f'您账户余额为：{remaining_money}'
+                            remaining_case = int(remaining_money / 16)
+                            msg_2 = f'您账户余额为：{remaining_money}元，还能开{remaining_case}个箱子'
                             msg = f'{msg_1}\n{msg_2}'
                             res[i]['money'] = remaining_money
-                            with open(r'/api/user_money.json', 'w', encoding='utf-8') as f_w:
+                            with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'w', encoding='utf-8') as f_w:
                                 result = json.dumps(res, ensure_ascii=False)
                                 f_w.write(result)
                                 f_w.close()
                             return msg
                         # 钱不够
                         else:
-                            msg = f'您账户余额为{money}。\n余额不足，请明天再试。'
+                            msg = f'您账户余额为{money}元。\n余额不足，请明天再试。'
                             return msg
             ml.close()
         except Exception as e:
             print(e)
 
     def check_balance(self, from_wxid):
-        with open(r'/api/user_money.json', encoding='utf-8') as ml:
+        with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', encoding='utf-8') as ml:
             res = json.load(ml)
             for i in range(len(res)):
                 # 读取user的money
                 if from_wxid == res[i]['from_wxid']:
                     money = res[i]['money']
                     return money
+
+    def add_all_money(self):
+        with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', encoding='utf-8') as ml:
+            res = json.load(ml)
+            ml.close()
+            for i in range(len(res)):
+                money = res[i]['money']
+                if money <= 16000:
+                    res[i]['money'] = money + 5000
+                else:
+                    res[i]['money'] = money + 1000
+        with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'w', encoding='utf-8') as f_w:
+            result = json.dumps(res, ensure_ascii=False)
+            f_w.write(result)
+            f_w.close()

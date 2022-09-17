@@ -110,13 +110,12 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
 
         elif '开箱' in temp_msg:
             print(temp_msg)
-            max_count = 1000
+            max_count = 10000
             if temp_msg == '开箱' or temp_msg == '开箱帮助':
                 msg = f'欢迎来到模拟开箱，请@菲菲并输入开箱数量（不得大于{max_count}）以及武器箱名！\n' \
                       '例如：@菲菲\u2005开箱 100 命悬一线\n' \
                       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n' \
                       '目前支持的武器箱有：命悬一线、梦魇\n' \
-                      '单抽出金@崔崔，奖励五块现金红包\n' \
                       '祝玩的开心！'
                 bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
                 msg_1 = '抵制不良游戏，拒绝盗版游戏。\n' \
@@ -173,7 +172,6 @@ def send_morning_msg():
     msg = msg + morning_msg + weather_msg + life_tip
 
     wechat.send_text(to_wxid='20802233439@chatroom', content=msg)
-    # wechat.send_text(to_wxid='4654915424@chatroom', content=msg)
 
 
 def send_everyday_a_song():
@@ -199,6 +197,12 @@ def send_afternoon_msg():
     wechat.send_text(to_wxid=bf.dadaji_room, content=afternoon_msg)
 
 
+def add_money_everyday():
+    Csgo().add_all_money()
+    msg = '今日份免费余额奖励已送达。\n请发送“@菲菲 查询余额”查收'
+    wechat.send_text(to_wxid=bf.cch_room, content=msg)
+
+
 schedule.every().day.at('08:00').do(send_morning_msg)
 schedule.every().day.at('11:20').do(send_noon_msg)
 schedule.every().day.at('15:00').do(send_everyday_a_song)
@@ -207,6 +211,7 @@ schedule.every().tuesday.at('16:20').do(send_afternoon_msg)
 schedule.every().wednesday.at('16:20').do(send_afternoon_msg)
 schedule.every().thursday.at('16:20').do(send_afternoon_msg)
 schedule.every().friday.at('16:20').do(send_afternoon_msg)
+schedule.every().day.at('00:00').do(add_money_everyday)
 
 # schedule.every(5).seconds.do(send_everyday_a_song)
 """

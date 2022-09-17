@@ -13,7 +13,7 @@ class BaseFunc:
         self.movie_signal = True
         self.debug_room = '17418658670@chatroom'
         self.dadaji_room = '20802233439@chatroom'
-        self.leibao_room = '4654915424@chatroom'
+        self.cch_room = '24928809083@chatroom'
         self.hrj_id = 'wxid_2xe76q5yl34k22'
         self.ckd_id = 'wxid_rbq4p73yvv0312'
         self.cst_id = 'wxid_lo73nhg1rw0322'
