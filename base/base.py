@@ -32,6 +32,17 @@ class BaseFunc:
         print("群列表: ")
         print(rooms)
 
+    def get_room_member_wxid(self, wechat, room_wxid):
+        data = wechat.get_room_members(room_wxid)
+        member_list = data['member_list']
+        # print(member_list)
+        msg = ''
+        for i in range(len(member_list)):
+            nick_name = member_list[i]['nickname']
+            wxid = member_list[i]['wxid']
+            msg = msg + f'{nick_name}：{wxid}\n'
+        wechat.send_text(to_wxid=room_wxid, content=msg)
+
     def delete_head(self, msg, ele):
         return msg.replace(ele, '')
 

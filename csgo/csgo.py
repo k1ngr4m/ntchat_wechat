@@ -2,6 +2,7 @@ import json
 import random
 # import pandas as pd
 # import numpy as np
+from base.base import BaseFunc
 
 """
 出蓝的概率是79.91%
@@ -12,7 +13,7 @@ import random
 """
 
 
-class Csgo:
+class Csgo(BaseFunc):
     def rand_weapon_from_json(self, case_name):
         # self.excel_to_json()
         with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\case.json', encoding='utf-8') as a:
@@ -223,3 +224,34 @@ class Csgo:
             result = json.dumps(res, ensure_ascii=False)
             f_w.write(result)
             f_w.close()
+
+    def print_user_money(self, wechat, room_wxid):
+        data = wechat.get_room_members(room_wxid)
+        member_list = data['member_list']
+        print(member_list)
+        msg = '所有成员余额如下：\n'
+        for i in range(len(member_list)):
+            nick_name = member_list[i]['nickname']
+            wxid = member_list[i]['wxid']
+            print(nick_name + ' ' + wxid)
+            with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', encoding='utf-8') as ml:
+                res = json.load(ml)
+                for j in range(len(res)):
+                    user_wxid = res[j]['from_wxid']
+                    user_money = res[j]['money']
+                    if wxid == user_wxid:
+                        msg = msg + f'{nick_name}：{user_money}元\n'
+        return msg
+
+    def add_money(self, add_money):
+        try:
+            with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'w+', encoding='utf-8') as ml:
+                res = json.load(ml)
+                print(add_money)
+                for i in range(len(res)):
+                    if res[i]['from_wxid'] == self.ckd_id:
+                        money = [res][i]['money']
+                        res[i][money] = money + int(add_money)
+                ml.write(res)
+        except Exception as e:
+            print(e)

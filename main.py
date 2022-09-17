@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import sys
 import time
 from datetime import datetime
@@ -36,17 +37,21 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
     # print(msg)
     nickname = "@菲菲\u2005"
 
-    # if (from_wxid == bf.hrj_id or from_wxid == bf.cst_id) and msg != '@菲菲\u2005开个命悬一线':
-    #     at_list = [from_wxid]
-    #     randint = random.randint(0, 100)
-    #     print(randint)
-    #     if randint <= 10:
-    #         caihongpi = MuxiaoguoApi().caihongpi()
-    #         wechat.send_room_at_msg(room_wxid, caihongpi, at_list)
-    #         wechat.send_pat(room_wxid, from_wxid)
-    #     else:
-    #         pass
+    # ckd说的话
+    if from_wxid == bf.ckd_id:
+        if msg == 'get_room_member_wxid':
+            bf.get_room_member_wxid(wechat, room_wxid)
+        elif msg == 'print_user_money':
+            msg = Csgo().print_user_money(wechat, room_wxid)
+            bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
+        elif 'add_money' in msg:
+            add_money = msg.split(' ')[1]
+            Csgo().add_money(add_money)
+            msg = f'已为您添加{add_money}元。\n'
+            msg = msg + Csgo().check_balance(from_wxid)
+            bf.send_textmsg(wechat, room_wxid, from_wxid, msg ,msg)
 
+    # 大家说的话
     if '电影' in msg and bf.movie_signal:
         res = '买电影票找@崔崔\u2005'
         bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
@@ -68,7 +73,7 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
     #     caihongpi = MuxiaoguoApi().caihongpi()
     #     bf.send_textmsg(wechat, room_wxid, from_wxid, caihongpi, caihongpi)
     #     wechat.send_pat(room_wxid, bf.cst_id)
-
+    # @菲菲的话
     elif nickname in msg:
         temp_msg = bf.delete_head(msg, nickname)
         # print(temp_msg)
@@ -149,8 +154,7 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
             bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
         elif temp_msg == '测试':
-            mp3_url = 'http://m801.music.126.net/20220915142742/0b265f7e748029994495a8d09f5567cc/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/14096450557/29ab/ac4c/10ba/22ee7a09879bc9cc03e66b50fabbab5f.mp3'
-            wechat.send_link_card(room_wxid, 'song', 'songid', mp3_url, r'C:/img/temp.jpg')
+            pass
 
         else:
             res = api.qingyunke.get_reply(temp_msg)
