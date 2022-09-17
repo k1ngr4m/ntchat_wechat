@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import random
 import sys
 import time
 from datetime import datetime
@@ -15,7 +14,7 @@ from api.muxiaoguo import MuxiaoguoApi
 from api.qingyunke import get_reply
 from api.tianapi import TianApi
 from base.base import BaseFunc
-from api.csgo import Csgo
+from csgo.csgo import Csgo
 
 wechat = ntchat.WeChat()
 wechat.open(smart=True)

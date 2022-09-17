@@ -172,7 +172,7 @@ class Csgo:
 
     def open_cases(self, from_wxid, case_count, case_name):
         try:
-            with open(r'C:\py\git\PythonProject\ntchat_wechat\api\user_money.json', encoding='utf-8') as ml:
+            with open(r'/api/user_money.json', encoding='utf-8') as ml:
                 res = json.load(ml)
                 ml.close()
                 for i in range(len(res)):
@@ -188,7 +188,7 @@ class Csgo:
                             msg_2 = f'您账户余额为：{remaining_money}'
                             msg = f'{msg_1}\n{msg_2}'
                             res[i]['money'] = remaining_money
-                            with open(r'C:\py\git\PythonProject\ntchat_wechat\api\user_money.json', 'w', encoding='utf-8') as f_w:
+                            with open(r'/api/user_money.json', 'w', encoding='utf-8') as f_w:
                                 result = json.dumps(res, ensure_ascii=False)
                                 f_w.write(result)
                                 f_w.close()
@@ -202,7 +202,7 @@ class Csgo:
             print(e)
 
     def check_balance(self, from_wxid):
-        with open(r'C:\py\git\PythonProject\ntchat_wechat\api\user_money.json', encoding='utf-8') as ml:
+        with open(r'/api/user_money.json', encoding='utf-8') as ml:
             res = json.load(ml)
             for i in range(len(res)):
                 # 读取user的money
