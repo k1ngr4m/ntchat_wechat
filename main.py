@@ -47,9 +47,11 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
         elif 'add_money' in msg:
             add_money = msg.split(' ')[1]
             Csgo().add_money(add_money)
-            msg = f'已为您添加{add_money}元。\n'
-            msg = msg + Csgo().check_balance(from_wxid)
-            bf.send_textmsg(wechat, room_wxid, from_wxid, msg ,msg)
+            msg_1 = f'已为您添加{add_money}元。\n'
+            print()
+            msg_2 = Csgo().check_balance(from_wxid)
+            msg = msg_1 + msg_2
+            bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
 
     # 大家说的话
     if '电影' in msg and bf.movie_signal:
@@ -148,9 +150,8 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
                     bf.send_textmsg(wechat, room_wxid, from_wxid, e, e)
 
         elif temp_msg == '查询余额':
-            money = Csgo().check_balance(from_wxid)
-            can_open = int(money / 16)
-            res = f'您的余额为：{money}元，还能开{can_open}个箱子'
+            res = Csgo().check_balance(from_wxid)
+
             bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
         elif temp_msg == '测试':

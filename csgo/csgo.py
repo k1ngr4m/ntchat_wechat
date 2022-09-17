@@ -208,7 +208,9 @@ class Csgo(BaseFunc):
                 # 读取user的money
                 if from_wxid == res[i]['from_wxid']:
                     money = res[i]['money']
-                    return money
+                    can_open = int(money / 16)
+                    res = f'您的余额为：{money}元，还能开{can_open}个箱子'
+                    return res
 
     def add_all_money(self):
         with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', encoding='utf-8') as ml:
@@ -245,13 +247,15 @@ class Csgo(BaseFunc):
 
     def add_money(self, add_money):
         try:
-            with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'w+', encoding='utf-8') as ml:
+            with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'r', encoding='utf-8') as ml:
                 res = json.load(ml)
-                print(add_money)
-                for i in range(len(res)):
+                for i in range(len(res)-1):
                     if res[i]['from_wxid'] == self.ckd_id:
-                        money = [res][i]['money']
-                        res[i][money] = money + int(add_money)
-                ml.write(res)
+                        money = res[i]['money']
+                        res[i]['money'] = money + int(add_money)
+                with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'w', encoding='utf-8') as f_w:
+                    result = json.dumps(res, ensure_ascii=False)
+                    f_w.write(result)
+                    f_w.close()
         except Exception as e:
             print(e)
