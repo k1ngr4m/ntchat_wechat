@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import re
 import sys
 import time
 from datetime import datetime
@@ -31,6 +32,7 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
     from_wxid = data["from_wxid"]
     room_wxid = data["room_wxid"]
     self_wxid = wechat.get_login_info()["wxid"]
+    at_user_list = data["at_user_list"]
 
     if from_wxid == self_wxid:
         return
@@ -70,7 +72,14 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
         msg = Csgo().sim()
         bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
 
-
+    elif '转账' in msg:
+        try:
+            print(at_user_list)
+            number = re.findall(r"\b\d+\b", msg)
+            msgs = Csgo().transfer_accounts(from_wxid, at_user_list, number)
+        except Exception as e:
+            msgs = e
+        bf.send_textmsg(wechat, room_wxid, from_wxid, msgs, msgs)
 
     # elif 'rzx' in msg:
     #     res = 'rzx大帅逼！'
@@ -85,6 +94,7 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
     #     caihongpi = MuxiaoguoApi().caihongpi()
     #     bf.send_textmsg(wechat, room_wxid, from_wxid, caihongpi, caihongpi)
     #     wechat.send_pat(room_wxid, bf.cst_id)
+
     # @菲菲的话
     elif nickname in msg:
         temp_msg = bf.delete_head(msg, nickname)
@@ -133,13 +143,14 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
                       '例如：@菲菲\u2005开箱 100 命悬一线\n' \
                       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n' \
                       '目前支持的武器箱有：命悬一线、梦魇、古堡\n' \
+                      '菲菲支持转账啦！\n输入"转账"并@你心爱的他 加上要转账的资金就可以啦！\n' \
                       '祝玩的开心！'
                 bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
-                msg_1 = '抵制不良游戏，拒绝盗版游戏。\n' \
-                        '注意自我保护，谨防受骗上当。\n' \
-                        '适度游戏益脑，沉迷游戏伤身。\n' \
-                        '合理安排时间，享受健康生活。'
-                bf.send_textmsg(wechat, room_wxid, from_wxid, msg_1, msg_1)
+                # msg_1 = '抵制不良游戏，拒绝盗版游戏。\n' \
+                #         '注意自我保护，谨防受骗上当。\n' \
+                #         '适度游戏益脑，沉迷游戏伤身。\n' \
+                #         '合理安排时间，享受健康生活。'
+                # bf.send_textmsg(wechat, room_wxid, from_wxid, msg_1, msg_1)
             else:
                 try:
                     temp = temp_msg.split(' ')
