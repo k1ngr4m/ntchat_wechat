@@ -143,7 +143,8 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
                         case_name = temp[2]
                         print(case_name)
                         if 0 < case_count <= max_count:
-                            msg = Csgo().open_cases(from_wxid, case_count, case_name)
+                            msg = '菲菲正在维护'
+                            # msg = Csgo().open_cases(from_wxid, case_count, case_name)
                         else:
                             msg = f'您输入的数量有误！当前仅支持1-{max_count}'
                     else:
