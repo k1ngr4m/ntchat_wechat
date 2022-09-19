@@ -41,9 +41,9 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
     if from_wxid == bf.ckd_id:
         if msg == 'get_room_member_wxid':
             bf.get_room_member_wxid(wechat, room_wxid)
-        elif msg == 'print_user_money':
-            msg = Csgo().print_user_money(wechat, room_wxid)
-            bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
+        # elif msg == 'print_user_money':
+        #     msg = Csgo().print_user_money(wechat, room_wxid)
+        #     bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
         elif 'add_money' in msg:
             add_money = msg.split(' ')[1]
             Csgo().add_money(add_money)
@@ -61,6 +61,10 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
 
     elif '@菲菲\u2005好的！' in msg:
         bf.movie_signal = True
+
+    elif msg == 'print_user_money':
+        msg = Csgo().print_user_money(wechat, room_wxid)
+        bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
 
     # elif 'rzx' in msg:
     #     res = 'rzx大帅逼！'
