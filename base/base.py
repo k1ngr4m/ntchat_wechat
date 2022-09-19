@@ -17,6 +17,7 @@ class BaseFunc:
         self.hrj_id = 'wxid_2xe76q5yl34k22'
         self.ckd_id = 'wxid_rbq4p73yvv0312'
         self.cst_id = 'wxid_lo73nhg1rw0322'
+        self.leibao_room = '4654915424@chatroom'
 
     def get_contacts_and_rooms(self, wechat):
         # 等待登录

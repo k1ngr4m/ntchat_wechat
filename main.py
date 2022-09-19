@@ -66,6 +66,12 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
         msg = Csgo().print_user_money(wechat, room_wxid)
         bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
 
+    elif msg == '模拟 龙狙':
+        msg = Csgo().sim()
+        bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
+
+
+
     # elif 'rzx' in msg:
     #     res = 'rzx大帅逼！'
     #     bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
@@ -121,7 +127,7 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
 
         elif '开箱' in temp_msg:
             print(temp_msg)
-            max_count = 10000
+            max_count = 5000
             if temp_msg == '开箱' or temp_msg == '开箱帮助':
                 msg = f'欢迎来到模拟开箱，请@菲菲并输入开箱数量（不得大于{max_count}）以及武器箱名！\n' \
                       '例如：@菲菲\u2005开箱 100 命悬一线\n' \
@@ -211,6 +217,7 @@ def add_money_everyday():
     Csgo().add_all_money()
     msg = '今日份免费余额奖励已送达。\n请发送“@菲菲 查询余额”查收'
     wechat.send_text(to_wxid=bf.cch_room, content=msg)
+    wechat.send_text(to_wxid=bf.leibao_room,content=msg)
 
 
 schedule.every().day.at('08:00').do(send_morning_msg)

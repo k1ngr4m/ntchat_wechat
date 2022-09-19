@@ -194,7 +194,7 @@ class Csgo(BaseFunc):
                             else:
                                 msg_1, diff = self.open_case_from_json(case_count, case_name, single_case_money)
                             remaining_money = round(money + diff, 2)
-                            remaining_case = int(remaining_money / case_money)
+                            remaining_case = int(remaining_money / single_case_money)
                             msg_2 = f'您账户余额为：{remaining_money}元，还能开{remaining_case}个此武器箱。'
                             msg = f'{msg_1}\n{msg_2}'
                             res[i]['money'] = remaining_money
@@ -222,7 +222,7 @@ class Csgo(BaseFunc):
                 if from_wxid == res[i]['from_wxid']:
                     money = res[i]['money']
                     can_open = int(money / self.key_money)
-                    res = f'您的余额为：{money}元，还能开{can_open}个普通箱子'
+                    res = f'您的余额为：{money}元，还能开{can_open}个普通箱子。'
                     return res
 
     def add_all_money(self):
@@ -373,7 +373,7 @@ class Csgo(BaseFunc):
     def open_collection_case_from_json(self, case_count, case_name, single_case_money):
         lists = []
         price = 0.00
-        print('进来了')
+        # print('进来了')
         # print(type(case_count))
         for i in range(0, case_count):
             # print(f'正在开第{i+1}')
@@ -381,7 +381,7 @@ class Csgo(BaseFunc):
             # print('chu')
             if weapon_content['weapon_name'] == '输入名称有误！':
                 return weapon_content['weapon_name']
-            print(weapon_content)
+            # print(weapon_content)
 
             weapon_price = weapon_content['weapon_price']
             price = round(price + weapon_price, 2)
@@ -409,3 +409,27 @@ class Csgo(BaseFunc):
             msg = msg + f'此次您共花费了{cost}元，所开出的武器价值估算为{price}元，共亏损{abs(diff)}元'
         print(msg)
         return msg, diff
+
+    def sim(self):
+        try:
+            i = 0
+            with open(r'C:/statistics.json', 'r', encoding='utf-8') as st:
+                res = json.load(st)
+            while True:
+                rand_percent = random.random()
+                print(rand_percent)
+                i += 1
+                if 0 < rand_percent <= 0.000256016385:
+                    msg = f'第{i}次开到龙狙啦！\n'
+                    res.append(i)
+
+                    avg = int(sum(res)/len(res))
+                    msg = msg + f'大数据显示平均开到龙狙的次数为{avg}次'
+
+                    with open(r'C:/statistics.json', 'w', encoding='utf-8') as st1:
+                        res = str(res)
+                        st1.write(res)
+                    return msg
+
+        except Exception as e:
+            print(e)
