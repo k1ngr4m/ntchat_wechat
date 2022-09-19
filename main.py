@@ -126,7 +126,7 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
                 msg = f'欢迎来到模拟开箱，请@菲菲并输入开箱数量（不得大于{max_count}）以及武器箱名！\n' \
                       '例如：@菲菲\u2005开箱 100 命悬一线\n' \
                       '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n' \
-                      '目前支持的武器箱有：命悬一线、梦魇\n' \
+                      '目前支持的武器箱有：命悬一线、梦魇、古堡\n' \
                       '祝玩的开心！'
                 bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
                 msg_1 = '抵制不良游戏，拒绝盗版游戏。\n' \
@@ -143,6 +143,7 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
                         case_name = temp[2]
                         print(case_name)
                         if 0 < case_count <= max_count:
+                            # msg = '菲菲正在维护'
                             msg = Csgo().open_cases(from_wxid, case_count, case_name)
                         else:
                             msg = f'您输入的数量有误！当前仅支持1-{max_count}'
