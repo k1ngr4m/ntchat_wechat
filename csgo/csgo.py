@@ -195,7 +195,7 @@ class Csgo(BaseFunc):
                                 msg_1, diff = self.open_case_from_json(case_count, case_name, single_case_money)
                             remaining_money = round(money + diff, 2)
                             remaining_case = int(remaining_money / case_money)
-                            msg_2 = f'您账户余额为：{remaining_money}元，还能开{remaining_case}个此武器箱'
+                            msg_2 = f'您账户余额为：{remaining_money}元，还能开{remaining_case}个此武器箱。'
                             msg = f'{msg_1}\n{msg_2}'
                             res[i]['money'] = remaining_money
                             with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'w',
