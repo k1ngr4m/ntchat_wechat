@@ -258,6 +258,12 @@ try:
     while True:
         schedule.run_pending()
         time.sleep(0.5)
-except KeyboardInterrupt:
-    ntchat.exit_()
-    sys.exit()
+except Exception as e:
+    if e == KeyboardInterrupt:
+        ntchat.exit_()
+        sys.exit()
+    else:
+        print(e)
+# except KeyboardInterrupt:
+#     ntchat.exit_()
+#     sys.exit()
