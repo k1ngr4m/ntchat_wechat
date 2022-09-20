@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-
+from dateutil.parser import parse
 import requests
 
 
@@ -10,10 +10,11 @@ class WanPlus:
         time_stamp = int(time.mktime(time.strptime(match_time, "%Y-%m-%d")))
         # print(time_stamp)
         match_list = {
-            '比赛': '1114,1116',
+            '比赛': '1114,1116,1100',
             '资格赛': '1114',
             '冒泡赛': '1114',
-            '入围赛': '1116'}
+            '入围赛': '1116',
+            '夏季赛': '1100'}
         headers = {
             'Accept-Language': 'zh-CN,zh;q=0.9',
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -112,7 +113,11 @@ class WanPlus:
             match_time = msg_list[1]
             match_name = msg_list[2]
         elif len(msg_list) == 2:
-            match_time = msg_list[1]
+            try:
+                match_time = parse(msg).strftime('%Y-%m-%d')
+            except:
+                res = '日期出错'
+                return res
             match_name = '比赛'
         elif len(msg_list) == 1:
             match_time = '今天'
