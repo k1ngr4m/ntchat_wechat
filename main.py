@@ -104,88 +104,93 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
             msgs = e
         bf.send_textmsg(wechat, room_wxid, from_wxid, msgs, msgs)
 
+    # # @菲菲说的话
+    # elif nickname in msg:
+    #     temp_msg = bf.delete_head(msg, nickname)
+    #     # print(temp_msg)
+
+    elif '大乱斗' in msg:
+        res = op_gg.get_opgg(wechat, msg, room_wxid, from_wxid)
+        bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
+    elif msg == '热搜' or msg == '热搜安卓':
+        hot_search_url = 'https://weibo.com/hot/search'
+        pic_url = 'https://www.somode.com/uploadimg/ico/2022/0810/1660120968235761.jpg'
+        res = TianApi().hotSearch(msg)
+        bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
+    elif msg == '游戏资讯':
+        res = TianApi().gameNews()
+        bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
+    elif msg == '狗狗' or msg == '猫猫':
+        if msg == '狗狗':
+            filename = FreeApi().random_dog()
+        else:
+            filename = FreeApi().random_cat()
+        bf.send_imagemsg(wechat, room_wxid, from_wxid, filename, filename)
+
+    elif msg == '百科题库':
+        res = '此功能还在开发中'
+        bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+        # TianApi().BaikeTiku(wechat, room_wxid, from_wxid)
+
+    elif msg == '来首网易云':
+        songName, songPic, songArtists, mp3url, content = MuxiaoguoApi().wangyiyun()
+        # wechat.send_text(to_wxid=room_wxid, content=msg)
+        wechat.send_link_card(to_wxid=room_wxid, title=songName, desc=songArtists, url=mp3url,
+                              image_url=songPic)
+        wechat.send_text(to_wxid=room_wxid, content=content)
+
+    elif '开箱' in msg:
+        print(msg)
+        max_count = 5000
+        if msg == '开箱' or msg == '开箱帮助':
+            msg = f'欢迎来到模拟开箱，请输入开箱数量（不得大于{max_count}）以及武器箱名！\n' \
+                  '例如：开箱 100 命悬一线\n' \
+                  '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n' \
+                  '目前支持的武器箱有：命悬一线、梦魇、古堡\n' \
+                  '菲菲支持转账啦！\n输入"转账"并@你心爱的他 加上要转账的资金就可以啦！\n' \
+                  '祝玩的开心！'
+            bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
+        else:
+            try:
+                temp = msg.split(' ')
+                if len(temp) == 3:
+                    print(temp)
+                    case_count = int(temp[1])
+                    case_name = temp[2]
+                    print(case_name)
+                    if 0 < case_count <= max_count:
+                        # msg = '菲菲正在维护'
+                        msg = Csgo().open_cases(from_wxid, case_count, case_name)
+                    else:
+                        msg = f'您输入的数量有误！当前仅支持1-{max_count}'
+                else:
+                    msg = '输入有误！'
+                bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
+                # wechat.send_pat(room_wxid, from_wxid)
+            except Exception as e:
+                bf.send_textmsg(wechat, room_wxid, from_wxid, e, e)
+
+    elif msg == '查询余额':
+        res = Csgo().check_balance(from_wxid)
+
+        bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
+    elif msg == '测试':
+        pass
+
     # @菲菲说的话
     elif nickname in msg:
         temp_msg = bf.delete_head(msg, nickname)
         # print(temp_msg)
-
-        if '大乱斗' in temp_msg:
-            op_gg.get_opgg(wechat, temp_msg, room_wxid, from_wxid)
-
-        elif temp_msg == '热搜' or temp_msg == '热搜安卓':
-            hot_search_url = 'https://weibo.com/hot/search'
-            pic_url = 'https://www.somode.com/uploadimg/ico/2022/0810/1660120968235761.jpg'
-            res = TianApi().hotSearch(temp_msg)
-            bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
-
-        elif temp_msg == '游戏资讯':
-            res = TianApi().gameNews()
-            bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
-
-        elif temp_msg == '狗狗' or temp_msg == '猫猫':
-            if temp_msg == '狗狗':
-                filename = FreeApi().random_dog()
-            else:
-                filename = FreeApi().random_cat()
-            bf.send_imagemsg(wechat, room_wxid, from_wxid, filename, filename)
-
-        elif temp_msg == '百科题库':
-            res = '此功能还在开发中'
-            bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
-            # TianApi().BaikeTiku(wechat, room_wxid, from_wxid)
-
-        elif temp_msg == '来首网易云':
-            songName, songPic, songArtists, mp3url, content = MuxiaoguoApi().wangyiyun()
-            wechat.send_text(to_wxid=room_wxid, content=msg)
-            wechat.send_link_card(to_wxid=room_wxid, title=songName, desc=songArtists, url=mp3url,
-                                  image_url=songPic)
-            wechat.send_text(to_wxid=room_wxid, content=content)
-
-        elif '开箱' in temp_msg:
-            print(temp_msg)
-            max_count = 5000
-            if temp_msg == '开箱' or temp_msg == '开箱帮助':
-                msg = f'欢迎来到模拟开箱，请@菲菲并输入开箱数量（不得大于{max_count}）以及武器箱名！\n' \
-                      '例如：@菲菲\u2005开箱 100 命悬一线\n' \
-                      '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n' \
-                      '目前支持的武器箱有：命悬一线、梦魇、古堡\n' \
-                      '菲菲支持转账啦！\n输入"转账"并@你心爱的他 加上要转账的资金就可以啦！\n' \
-                      '祝玩的开心！'
-                bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
-            else:
-                try:
-                    temp = temp_msg.split(' ')
-                    if len(temp) == 3:
-                        print(temp)
-                        case_count = int(temp[1])
-                        case_name = temp[2]
-                        print(case_name)
-                        if 0 < case_count <= max_count:
-                            # msg = '菲菲正在维护'
-                            msg = Csgo().open_cases(from_wxid, case_count, case_name)
-                        else:
-                            msg = f'您输入的数量有误！当前仅支持1-{max_count}'
-                    else:
-                        msg = '输入有误！'
-                    bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
-                    # wechat.send_pat(room_wxid, from_wxid)
-                except Exception as e:
-                    bf.send_textmsg(wechat, room_wxid, from_wxid, e, e)
-
-        elif temp_msg == '查询余额':
-            res = Csgo().check_balance(from_wxid)
-
-            bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
-
-        elif temp_msg == '测试':
-            pass
-
-        else:
-            res = api.qingyunke.get_reply(temp_msg)
-            bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
-
+    # else:
+        res = api.qingyunke.get_reply(temp_msg)
+        bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
     else:
         pass
+
 
 
 #     msg = '各位老船长：\n1. 本周摸鱼🐟情况汇总\n2. 下周摸鱼🐟计划\n3. 需协同撒网事项(需协同)\n4. 摸鱼心得(工作心得)\n5. 船长养成计划(学习心得)'
