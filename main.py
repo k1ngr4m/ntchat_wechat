@@ -149,7 +149,7 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
 
     elif '开箱' in msg:
         print(msg)
-        max_count = 5000
+        max_count = 1000
         if msg == '开箱' or msg == '开箱帮助':
             msg = f'欢迎来到模拟开箱，请输入开箱数量（不得大于{max_count}）以及武器箱名！\n' \
                   '例如：开箱 100 命悬一线\n' \
