@@ -104,29 +104,12 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
             msgs = e
         bf.send_textmsg(wechat, room_wxid, from_wxid, msgs, msgs)
 
-    # elif 'rzx' in msg:
-    #     res = 'rzx大帅逼！'
-    #     bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
-    #     caihongpi = MuxiaoguoApi().caihongpi()
-    #     bf.send_textmsg(wechat, room_wxid, from_wxid, caihongpi, caihongpi)
-    #     wechat.send_pat(room_wxid, 'rzx670440932')
-    #
-    # elif '崔总' in msg:
-    #     res = 'cst大帅逼'
-    #     bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
-    #     caihongpi = MuxiaoguoApi().caihongpi()
-    #     bf.send_textmsg(wechat, room_wxid, from_wxid, caihongpi, caihongpi)
-    #     wechat.send_pat(room_wxid, bf.cst_id)
-
-    # @菲菲的话
+    # @菲菲说的话
     elif nickname in msg:
         temp_msg = bf.delete_head(msg, nickname)
         # print(temp_msg)
-        if temp_msg[0:2] == '功能':
-            res = '天气(杭州天气)'
-            bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
-        elif '大乱斗' in temp_msg:
+        if '大乱斗' in temp_msg:
             op_gg.get_opgg(wechat, temp_msg, room_wxid, from_wxid)
 
         elif temp_msg == '热搜' or temp_msg == '热搜安卓':
@@ -169,11 +152,6 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
                       '菲菲支持转账啦！\n输入"转账"并@你心爱的他 加上要转账的资金就可以啦！\n' \
                       '祝玩的开心！'
                 bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
-                # msg_1 = '抵制不良游戏，拒绝盗版游戏。\n' \
-                #         '注意自我保护，谨防受骗上当。\n' \
-                #         '适度游戏益脑，沉迷游戏伤身。\n' \
-                #         '合理安排时间，享受健康生活。'
-                # bf.send_textmsg(wechat, room_wxid, from_wxid, msg_1, msg_1)
             else:
                 try:
                     temp = temp_msg.split(' ')
