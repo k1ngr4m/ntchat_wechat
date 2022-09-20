@@ -16,6 +16,7 @@ from api.hefeng import HefengApi
 from api.muxiaoguo import MuxiaoguoApi
 from api.qingyunke import get_reply
 from api.tianapi import TianApi
+from api.wanplus import WanPlus
 from base.base import BaseFunc
 from csgo.csgo import Csgo
 
@@ -142,6 +143,10 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
                               image_url=songPic)
         wechat.send_text(to_wxid=room_wxid, content=content)
 
+    elif msg == '查询余额':
+        res = Csgo().check_balance(from_wxid)
+        bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
     elif '开箱' in msg:
         print(msg)
         max_count = 5000
@@ -173,9 +178,8 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
             except Exception as e:
                 bf.send_textmsg(wechat, room_wxid, from_wxid, e, e)
 
-    elif msg == '查询余额':
-        res = Csgo().check_balance(from_wxid)
-
+    elif '查询比赛' in msg:
+        res = WanPlus().filter_msg(msg)
         bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
     elif msg == '测试':
