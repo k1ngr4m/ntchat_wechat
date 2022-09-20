@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import random
 import re
 import sys
 import time
@@ -48,12 +49,17 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
         #     bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
         elif 'add_money' in msg:
             add_money = msg.split(' ')[1]
-            Csgo().add_money(add_money)
+            Csgo().add_money(from_wxid, add_money)
             msg_1 = f'已为您添加{add_money}元。\n'
             print()
             msg_2 = Csgo().check_balance(from_wxid)
             msg = msg_1 + msg_2
             bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
+        elif 'set_answer' in msg:
+            temp = bf.delete_head(msg, 'set_answer ')
+            bf.answer = temp
+            bf.send_textmsg(wechat, room_wxid, from_wxid, bf.answer, bf.answer)
+            return
 
     # 大家说的话
     if '电影' in msg and bf.movie_signal:
@@ -63,6 +69,23 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
 
     elif '@菲菲\u2005好的！' in msg:
         bf.movie_signal = True
+        bf.cdkey_signal = True
+        res = '嘿嘿！'
+        bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
+    elif msg == bf.answer and bf.cdkey_signal:
+        msg = f'恭喜您触发隐藏密码，您将获得一个cdk：{bf.cdkey}'
+        bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
+        bf.cdkey_signal_2 = True
+        bf.cdkey_signal = False
+
+    elif msg == bf.cdkey and bf.cdkey_signal_2:
+        bonus = random.randint(10000, 20000)
+        Csgo().add_money(from_wxid, bonus)
+        msg = f'已为您添加{bonus}元'
+        bf.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
+        bf.cdkey_signal = False
+        bf.cdkey_signal_2 = False
 
     elif msg == 'print_user_money':
         msg = Csgo().print_user_money(wechat, room_wxid)

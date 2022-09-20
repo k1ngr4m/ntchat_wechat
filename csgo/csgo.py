@@ -258,12 +258,12 @@ class Csgo(BaseFunc):
                         msg = msg + f'{nick_name}：{user_money}元\n'
         return msg
 
-    def add_money(self, add_money):
+    def add_money(self, from_wxid, add_money):
         try:
             with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'r', encoding='utf-8') as ml:
                 res = json.load(ml)
                 for i in range(len(res) - 1):
-                    if res[i]['from_wxid'] == self.ckd_id:
+                    if res[i]['from_wxid'] == from_wxid:
                         money = res[i]['money']
                         res[i]['money'] = money + int(add_money)
                 with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'w', encoding='utf-8') as f_w:
@@ -454,7 +454,7 @@ class Csgo(BaseFunc):
                                     if res[j]['from_wxid'] == user_wxid:
                                         money_1 = res[j]['money']
                                         res[j]['money'] = round(money_1 + number, 2)
-                                        res.sort()
+                                        # res.sort()
                                         with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'w',
                                                   encoding='utf-8') as b:
                                             result = json.dumps(res, ensure_ascii=False)
