@@ -11,7 +11,7 @@ import urllib.request
 class BaseFunc:
     def __init__(self):
         self.movie_signal = True
-        self.cdkey = 'KT9ID-OFNGI-FE23V-SR30X'
+        self.cdkey = 'DSAJK-DHO34-A341G-F45VB'
         self.cdkey_signal = True
         self.cdkey_signal_2 = False
         self.debug_room = '17418658670@chatroom'
@@ -21,7 +21,7 @@ class BaseFunc:
         self.ckd_id = 'wxid_rbq4p73yvv0312'
         self.cst_id = 'wxid_lo73nhg1rw0322'
         self.leibao_room = '4654915424@chatroom'
-        self.answer = '我要的只是你在我身边'
+        self.answer = '你的眼睛再说我愿意'
 
     def get_contacts_and_rooms(self, wechat):
         # 等待登录

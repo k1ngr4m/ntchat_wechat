@@ -179,22 +179,27 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
                 bf.send_textmsg(wechat, room_wxid, from_wxid, e, e)
 
     elif '查询比赛' in msg:
-        res = WanPlus().filter_msg(msg)
+        if msg == '查询比赛全部lpl':
+            res = WanPlus().lpl_game()
+        elif msg == '查询比赛lpl':
+            res = WanPlus().send_tomorrow_lpl_game()
+        else:
+            res = WanPlus().filter_msg(msg)
         bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
     elif msg == '测试':
-        pass
+        res = WanPlus().send_tomorrow_lpl_game()
+        bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
     # @菲菲说的话
     elif nickname in msg:
         temp_msg = bf.delete_head(msg, nickname)
         # print(temp_msg)
-    # else:
+        # else:
         res = api.qingyunke.get_reply(temp_msg)
         bf.send_textmsg(wechat, room_wxid, from_wxid, res, res)
     else:
         pass
-
 
 
 #     msg = '各位老船长：\n1. 本周摸鱼🐟情况汇总\n2. 下周摸鱼🐟计划\n3. 需协同撒网事项(需协同)\n4. 摸鱼心得(工作心得)\n5. 船长养成计划(学习心得)'
@@ -238,7 +243,13 @@ def add_money_everyday():
     Csgo().add_all_money()
     msg = '今日份免费余额奖励已送达。\n请发送“@菲菲 查询余额”查收'
     wechat.send_text(to_wxid=bf.cch_room, content=msg)
-    wechat.send_text(to_wxid=bf.leibao_room,content=msg)
+    wechat.send_text(to_wxid=bf.leibao_room, content=msg)
+
+
+def send_lpl_tomorrow_game_list():
+    res = WanPlus().send_tomorrow_lpl_game()
+    wechat.send_text(to_wxid=bf.leibao_room, content=res)
+    wechat.send_text(to_wxid=bf.cch_room, content=res)
 
 
 schedule.every().day.at('08:00').do(send_morning_msg)
@@ -250,6 +261,7 @@ schedule.every().wednesday.at('16:20').do(send_afternoon_msg)
 schedule.every().thursday.at('16:20').do(send_afternoon_msg)
 schedule.every().friday.at('16:20').do(send_afternoon_msg)
 schedule.every().day.at('00:00').do(add_money_everyday)
+schedule.every().day.at('09:10').do(send_lpl_tomorrow_game_list)
 
 # schedule.every(5).seconds.do(send_everyday_a_song)
 """
