@@ -179,7 +179,14 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
                 bf.send_textmsg(wechat, room_wxid, from_wxid, e, e)
 
     elif '查询比赛' in msg:
-        if msg == '查询比赛全部lpl':
+        if msg == '查询比赛 帮助':
+            res = '发送【查询比赛】：查询明天所有比赛。\n' \
+                  '发送【查询比赛 昨天/今天/明天（或指定日期）】：查询指定日期所有比赛。\n' \
+                  '发送【查询比赛全部lpl】：查询全部lpl比赛。\n' \
+                  '发送【查询比赛lpl】：查询明天lpl比赛\n' \
+                  '~~~~~~~~~~~~~\n' \
+                  '暂未支持查询指定战队比赛。'
+        elif msg == '查询比赛全部lpl':
             res = WanPlus().lpl_game()
         elif msg == '查询比赛lpl':
             res = WanPlus().send_tomorrow_lpl_game()

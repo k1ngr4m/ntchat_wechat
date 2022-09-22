@@ -143,7 +143,7 @@ class WanPlus:
                 return res
             match_name = '全部比赛'
         elif len(msg_list) == 1:
-            match_time = '明天'
+            match_time = (date.today() + timedelta(days=1)).strftime("%Y-%m-%d")
             match_name = '全部比赛'
         res = WanPlus().get_scheduleList_by_day(match_time, match_name)
         return res
