@@ -54,7 +54,6 @@ def on_recv_text_msg(wechat_instance: ntchat.WeChat, message):
 
 try:
     while True:
-        # schedule.run_pending()
         time.sleep(0.5)
         schedule_list.schedules(wechat)
 except Exception as e:

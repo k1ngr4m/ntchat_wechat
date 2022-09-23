@@ -38,7 +38,7 @@ def schedules(wechat):
     schedule.every().friday.at('16:20').do(send_afternoon_msg, wechat=wechat)
     schedule.every().day.at('00:00').do(add_money_everyday, wechat=wechat)
     schedule.every().day.at('09:10').do(send_lpl_tomorrow_game_list, wechat=wechat)
-    schedule.every(5).seconds.do(send_everyday_a_song, wechat=wechat)
+    # schedule.every(5).seconds.do(send_everyday_a_song, wechat=wechat)
     try:
         while True:
             schedule.run_pending()
@@ -63,16 +63,16 @@ def send_everyday_a_song(wechat):
     songName, songPic, songArtists, mp3url, content = MuxiaoguoApi().wangyiyun()
     time.sleep(1)
     msg = f'菲菲每日一曲：\n今天给大家带来的是：《{songName}》'
-    # wechat.send_text(to_wxid=bf().dadaji_room, content=msg)
-    # wechat.send_link_card(to_wxid=bf().dadaji_room, title=songName, desc=songArtists, url=mp3url, image_url=songPic)
-    # wechat.send_text(to_wxid=bf().dadaji_room, content=content)
-    # time.sleep(1)
-    # wechat.send_text(to_wxid=bf().leibao_room, content=msg)
-    # wechat.send_link_card(to_wxid=bf().leibao_room, title=songName, desc=songArtists, url=mp3url, image_url=songPic)
-    # wechat.send_text(to_wxid=bf().leibao_room, content=content)
-    wechat.send_text(to_wxid=bf().debug_room, content=msg)
-    wechat.send_link_card(to_wxid=bf().debug_room, title=songName, desc=songArtists, url=mp3url, image_url=songPic)
-    wechat.send_text(to_wxid=bf().debug_room, content=content)
+    wechat.send_text(to_wxid=bf().dadaji_room, content=msg)
+    wechat.send_link_card(to_wxid=bf().dadaji_room, title=songName, desc=songArtists, url=mp3url, image_url=songPic)
+    wechat.send_text(to_wxid=bf().dadaji_room, content=content)
+    time.sleep(1)
+    wechat.send_text(to_wxid=bf().leibao_room, content=msg)
+    wechat.send_link_card(to_wxid=bf().leibao_room, title=songName, desc=songArtists, url=mp3url, image_url=songPic)
+    wechat.send_text(to_wxid=bf().leibao_room, content=content)
+    # wechat.send_text(to_wxid=bf().debug_room, content=msg)
+    # wechat.send_link_card(to_wxid=bf().debug_room, title=songName, desc=songArtists, url=mp3url, image_url=songPic)
+    # wechat.send_text(to_wxid=bf().debug_room, content=content)
 
 
 def send_noon_msg(wechat):
