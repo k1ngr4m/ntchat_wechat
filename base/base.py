@@ -23,6 +23,8 @@ class BaseFunc:
         self.leibao_room = '4654915424@chatroom'
         self.xf_id = 'wxid_lzedtxou05t122'
         self.answer = '你的眼睛再说我愿意'
+        self.user = ''
+        self.mine_signal = False
 
     def get_contacts_and_rooms(self, wechat):
         # 等待登录

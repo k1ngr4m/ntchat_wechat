@@ -12,6 +12,7 @@ from api.wanplus import WanPlus
 from csgo.csgo import Csgo
 
 from base.base import BaseFunc
+from game import mine
 
 
 class Reply(BaseFunc):
@@ -125,6 +126,16 @@ class Reply(BaseFunc):
         elif msg == '测试':
             res = WanPlus().send_tomorrow_lpl_game()
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
+        elif msg == '扫雷':
+            self.user = from_wxid
+            self.mine_signal = True
+            mine.play()
+            mine.plays(wechat, from_wxid)
+
+        elif from_wxid == self.user and self.mine_signal:
+            tip = 'Where would you like to dig? Input as row,col: '
+            wechat.send_text(room_wxid, tip)
 
         # @菲菲说的话
         elif nickname in msg:
