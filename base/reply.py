@@ -1,16 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
 import re
-import sys
-import time
-import xml
-from xml import dom
-from xml.dom import minidom
-
-from datetime import datetime
-
-import ntchat
-import schedule
 
 import api
 from api import op_gg
@@ -32,9 +22,6 @@ class Reply(BaseFunc):
         if from_wxid == self.ckd_id:
             if msg == 'get_room_member_wxid':
                 self.get_room_member_wxid(wechat, room_wxid)
-            # elif msg == 'print_user_money':
-            #     msg = Csgo().print_user_money(wechat, room_wxid)
-            #     self.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
             elif 'add_money' in msg:
                 add_money = msg.split(' ')[1]
                 Csgo().add_money(from_wxid, add_money)
