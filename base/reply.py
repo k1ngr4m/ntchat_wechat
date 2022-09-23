@@ -16,16 +16,15 @@ from game import mine
 
 
 class Reply(BaseFunc):
-    def get_reply(self, wechat, msg, from_wxid, room_wxid, at_user_list):
+    def get_reply(self, bf, wechat, msg, from_wxid, room_wxid, at_user_list):
 
         # ckd说的话
         if from_wxid == self.ckd_id:
             self.personal_statement(wechat, room_wxid, from_wxid, msg)
 
-        else:
-            self.others_statement(wechat, room_wxid, from_wxid, at_user_list, msg)
+        self.others_statement(wechat, room_wxid, from_wxid, at_user_list, msg, bf)
 
-    def personal_statement(self, wechat, from_wxid, room_wxid, msg):
+    def personal_statement(self, wechat, room_wxid, from_wxid, msg):
         if msg == 'get_room_member_wxid':
             self.get_room_member_wxid(wechat, room_wxid)
         elif 'add_money' in msg:
@@ -42,7 +41,7 @@ class Reply(BaseFunc):
             self.send_textmsg(wechat, room_wxid, from_wxid, self.answer, self.answer)
             return
 
-    def others_statement(self, wechat, from_wxid, room_wxid, at_user_list, msg):
+    def others_statement(self, wechat, room_wxid, from_wxid, at_user_list, msg, bf):
         nickname = "@菲菲\u2005"
         # 大家说的话
         if '电影' in msg and self.movie_signal:
@@ -127,24 +126,31 @@ class Reply(BaseFunc):
             res = WanPlus().send_tomorrow_lpl_game()
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
-        elif msg == '扫雷':
-            self.user = from_wxid
-            self.mine_signal = True
-            mine.play()
-            mine.plays(wechat, from_wxid)
+        elif msg == '扫雷' and bf.into_mine_signal:
+            bf.user = from_wxid
+            bf.mine_signal = True
+            bf.into_mine_signal = False
+            mine.play(wechat, room_wxid, from_wxid)
+            return
 
-        elif from_wxid == self.user and self.mine_signal:
-            tip = 'Where would you like to dig? Input as row,col: '
-            wechat.send_text(room_wxid, tip)
+        elif msg == '扫雷' and bf.into_mine_signal == False:
+            res = '已经有人在玩扫雷，请等待当前玩家结束。'
+            self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
+        if from_wxid == bf.user and bf.mine_signal:
+            if msg == '退出':
+                res = '欢迎下次来玩。'
+                self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+                bf.into_mine_signal = True
+                bf.mine_signal = False
+            else:
+                mine.plays(wechat, room_wxid, msg, bf)
 
         # @菲菲说的话
         elif nickname in msg:
             temp_msg = self.delete_head(msg, nickname)
             res = api.qingyunke.get_reply(temp_msg)
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
-
-        else:
-            pass
 
     def open_case(self, msg, wechat, room_wxid, from_wxid):
         print(msg)

@@ -140,7 +140,7 @@ class Board:
                 if (row, col) in self.dug:
                     visible_board[row][col] = str(self.board[row][col])
                 else:
-                    visible_board[row][col] = ' '
+                    visible_board[row][col] = '  '
 
         # put this together in a string
         string_rep = ''
@@ -156,12 +156,12 @@ class Board:
 
         # print the csv strings
         indices = [i for i in range(self.dim_size)]
-        indices_row = '   '
+        indices_row = '*   '
         cells = []
         for idx, col in enumerate(indices):
             format = '%-' + str(widths[idx]) + "s"
             cells.append(format % (col))
-        indices_row += '  '.join(cells)
+        indices_row += ' '.join(cells)  # 第一排
         indices_row += '  \n'
 
         for i in range(len(visible_board)):
@@ -174,14 +174,14 @@ class Board:
             string_rep += ' |'.join(cells)
             string_rep += ' |\n'
 
-        str_len = int(len(string_rep) / self.dim_size)
+        str_len = int(len(string_rep) / self.dim_size) - 3
         string_rep = indices_row + '-' * str_len + '\n' + string_rep + '-' * str_len
 
         return string_rep
 
 
 # play the game
-def play(dim_size=10, num_bombs=10):
+def play(wechat, room_wxid, from_wxid, dim_size=10, num_bombs=10):
     # Step 1: create the board and plant the bombs
     board = Board(dim_size, num_bombs)
 
@@ -196,44 +196,73 @@ def play(dim_size=10, num_bombs=10):
     f = open('ceshi.pickle', 'wb')
     pickle.dump(board, f)
     f.close()
+    print(board)
+    BaseFunc().send_textmsg(wechat, room_wxid, from_wxid, str(board), str(board))
 
+    tip = '你想从哪里开始扫呢？ \n请输入行数和列数（例如2,4）:'
+    BaseFunc().send_textmsg(wechat, room_wxid, from_wxid, tip, tip)
     # fs = open('ceshi.pickle', 'rb')
     # objFromPickle = pickle.load(fs)
     # print('打印对象本身:', objFromPickle)
     # print('打印对象类型:', type(board))
 
 
-def plays(wechat, to_wxid):
-    fs = open('ceshi.pickle', 'rb')
-    board = pickle.load(fs)
-    # print('打印对象本身:', board)
-    while len(board.dug) < board.dim_size ** 2 - board.num_bombs:
-        print(type(board))
-        print(board)
-        # ckd write
-        wechat.send_text(to_wxid, board)
+def plays(wechat, to_wxid, msg, bf):
+    try:
+        fs = open('ceshi.pickle', 'rb')
+        board = pickle.load(fs)
+        # print('打印对象本身:', board)
+        # print('plays')
+        fs.close()
+        while len(board.dug) < board.dim_size ** 2 - board.num_bombs:
+            # print(type(board))
 
-        # 0,0 or 0, 0 or 0,    0
-        user_input = re.split(',(\\s)*', input("Where would you like to dig? Input as row,col: "))  # '0, 3'
-        row, col = int(user_input[0]), int(user_input[-1])
-        if row < 0 or row >= board.dim_size or col < 0 or col >= board.dim_size:
-            print("Invalid location. Try again.")
-            continue
+            # print('send msg')
+            # 0,0 or 0, 0 or 0,    0
+            user_input = re.split(',(\\s)*', msg)  # '0, 3'
+            row, col = int(user_input[0]), int(user_input[-1])
+            if row < 0 or row >= board.dim_size or col < 0 or col >= board.dim_size:
+                error = '无效参数，请重试。'
+                wechat.send_text(to_wxid, error)
+                return
 
-        # if it's valid, we dig
-        safe = board.dig(row, col)
-        if not board.safe:
-            # dug a bomb ahhhhhhh
-            break  # (game over rip)
+            # if it's valid, we dig
+            board.safe = board.dig(row, col)
+            print(board)
+            # ckd write
+            wechat.send_text(to_wxid, str(board))
+            f = open('ceshi.pickle', 'wb')
+            pickle.dump(board, f)
+            f.close()
+            if not board.safe:
+                # dug a bomb ahhhhhhh
+                break  # (game over rip)
+            tip = '你想从哪里开始扫呢？ \n请输入行数和列数（例如2,4）: '
+            wechat.send_text(to_wxid, tip)
+            return
 
-    # 2 ways to end loop, lets check which one
-    if board.safe:
-        print("CONGRATULATIONS!!!! YOU ARE VICTORIOUS!")
-    else:
-        print("SORRY GAME OVER :(")
-        # let's reveal the whole board!
-        board.dug = [(r, c) for r in range(board.dim_size) for c in range(board.dim_size)]
-        print(board)
+        # 2 ways to end loop, lets check which one
+        if board.safe:
+            win = '恭喜！！！ 你赢啦!'
+            print(win)
+            wechat.send_text(to_wxid, win)
+            bf.into_mine_signal = True
+            bf.mine_signal = False
+        else:
+            failure = 'SORRY GAME OVER :('
+            print(failure)
+            wechat.send_text(to_wxid, failure)
+            # let's reveal the whole board!
+            board.dug = [(r, c) for r in range(board.dim_size) for c in range(board.dim_size)]
+            print(board)
+            wechat.send_text(to_wxid, str(board))
+            bf.into_mine_signal = True
+            bf.mine_signal = False
+    except Exception as e:
+        print(e)
+        wechat.send_text(to_wxid, str(e))
+        wechat.send_text(to_wxid, '请重试')
+        return
 
 #
 # if __name__ == '__main__':  # good practice :)

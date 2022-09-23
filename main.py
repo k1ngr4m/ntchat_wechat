@@ -30,7 +30,7 @@ def on_recv_text_msg(wechat: ntchat.WeChat, message):
     if from_wxid == self_wxid:
         return
     else:
-        Reply().get_reply(wechat, msg, from_wxid, room_wxid, at_user_list)
+        Reply().get_reply(bf, wechat, msg, from_wxid, room_wxid, at_user_list)
 
 
 @wechat.msg_register(ntchat.MT_RECV_FRIEND_MSG)

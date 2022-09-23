@@ -25,6 +25,7 @@ class BaseFunc:
         self.answer = '你的眼睛再说我愿意'
         self.user = ''
         self.mine_signal = False
+        self.into_mine_signal = True
 
     def get_contacts_and_rooms(self, wechat):
         # 等待登录
