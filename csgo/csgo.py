@@ -21,7 +21,7 @@ class Csgo(BaseFunc):
         self.key_money = 16
         self.gubao_money = 4225     # 2016年科隆锦标赛古堡激战纪念包
 
-    def rand_weapon_from_json(self, case_name):
+    def rand_weapon_from_json(self, case_name, signal):
         # self.excel_to_json()
         with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\case.json', encoding='utf-8') as a:
             result = json.load(a)
@@ -58,7 +58,10 @@ class Csgo(BaseFunc):
                     pass
             a.close()
             # print('列表创建完毕')
-            rand_percent = random.random()
+            if signal:
+                rand_percent = random.uniform(0.5, 1)
+            else:
+                rand_percent = random.random()
             weapon_content = {}
             # 军规（蓝）
             if rand_percent <= 0.7991:
@@ -103,13 +106,13 @@ class Csgo(BaseFunc):
             # print(weapon_content)
             return weapon_content
 
-    def open_case_from_json(self, case_count, case_name, single_case_money):
+    def open_case_from_json(self, case_count, case_name, single_case_money, signal=0):
         lists = []
         price = 0.00
 
         for i in range(0, case_count):
             # print(f'正在开第{i+1}')
-            weapon_content = self.rand_weapon_from_json(case_name)
+            weapon_content = self.rand_weapon_from_json(case_name, signal)
             if weapon_content['weapon_name'] == '输入名称有误！':
                 return weapon_content['weapon_name']
             # print(weapon_content)
@@ -190,9 +193,16 @@ class Csgo(BaseFunc):
                         # 钱够了
                         if money >= case_money:
                             if case_name == '古堡':
-                                msg_1, diff = self.open_collection_case_from_json(case_count, case_name, single_case_money)
+                                if from_wxid == self.xf_id:
+                                    msg_1, diff = self.open_collection_case_from_json(case_count, case_name,
+                                                                                      single_case_money, signal=1)
+                                else:
+                                    msg_1, diff = self.open_collection_case_from_json(case_count, case_name, single_case_money)
                             else:
-                                msg_1, diff = self.open_case_from_json(case_count, case_name, single_case_money)
+                                if from_wxid == self.xf_id:
+                                    msg_1, diff = self.open_case_from_json(case_count, case_name, single_case_money, signal = 1)
+                                else:
+                                    msg_1, diff = self.open_case_from_json(case_count, case_name, single_case_money)
                             remaining_money = round(money + diff, 2)
                             remaining_case = int(remaining_money / single_case_money)
                             msg_2 = f'您账户余额为：{remaining_money}元，还能开{remaining_case}个此武器箱。'
@@ -273,7 +283,7 @@ class Csgo(BaseFunc):
         except Exception as e:
             print(e)
 
-    def rand_collection_weapon_from_json(self, case_name):
+    def rand_collection_weapon_from_json(self, case_name, singal):
         # self.excel_to_json()
         print('rand_collection')
         with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\collection_case.json', encoding='utf-8') as a:
@@ -316,7 +326,10 @@ class Csgo(BaseFunc):
                     pass
             a.close()
             # print('列表创建完毕')
-            rand_percent = random.random()
+            if singal:
+                rand_percent = random.uniform(0.9601,1)
+            else:
+                rand_percent = random.random()
             weapon_content = {}
             print(rand_percent)
             # 消费（白）
@@ -370,14 +383,14 @@ class Csgo(BaseFunc):
             # print(weapon_content)
             return weapon_content
 
-    def open_collection_case_from_json(self, case_count, case_name, single_case_money):
+    def open_collection_case_from_json(self, case_count, case_name, single_case_money, signal=0):
         lists = []
         price = 0.00
         # print('进来了')
         # print(type(case_count))
         for i in range(0, case_count):
             # print(f'正在开第{i+1}')
-            weapon_content = self.rand_collection_weapon_from_json(case_name)
+            weapon_content = self.rand_collection_weapon_from_json(case_name, signal)
             # print('chu')
             if weapon_content['weapon_name'] == '输入名称有误！':
                 return weapon_content['weapon_name']

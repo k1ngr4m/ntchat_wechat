@@ -21,6 +21,7 @@ class BaseFunc:
         self.ckd_id = 'wxid_rbq4p73yvv0312'
         self.cst_id = 'wxid_lo73nhg1rw0322'
         self.leibao_room = '4654915424@chatroom'
+        self.xf_id = 'wxid_lzedtxou05t122'
         self.answer = '你的眼睛再说我愿意'
 
     def get_contacts_and_rooms(self, wechat):
