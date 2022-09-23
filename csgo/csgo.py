@@ -397,10 +397,6 @@ class Csgo(BaseFunc):
         except Exception as e:
             print(e)
 
-
-
-
-
     def sim(self):
         try:
             i = 0
