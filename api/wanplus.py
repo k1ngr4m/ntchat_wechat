@@ -152,7 +152,7 @@ class WanPlus:
         # team_list = ['RNG', 'EDG', 'TES', 'JSG']
         msgs = ''
         for i in range(len(self.team_list)):
-            for j in range(1, 5):
+            for j in range(0, 5):
                 x = 7 * j
                 match_time = (date.today() + timedelta(days=x)).strftime("%Y-%m-%d")
                 msg = self.get_scheduleList_by_week(str(match_time), '全部比赛', self.team_list[i])
