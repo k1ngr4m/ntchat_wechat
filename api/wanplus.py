@@ -13,11 +13,12 @@ class WanPlus:
             time_stamp = int(time.mktime(time.strptime(match_time, "%Y-%m-%d")))
             # print(time_stamp)
             match_list = {
-                '全部比赛': '1114,1116,1100',
+                '全部比赛': '1114,1116,1117,1100',
                 '资格赛': '1114',
                 '冒泡赛': '1114',
                 '入围赛': '1116',
-                '夏季赛': '1100'}
+                '夏季赛': '1100',
+                '小组赛': '1117'}
             headers = {
                 'Accept-Language': 'zh-CN,zh;q=0.9',
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -68,7 +69,7 @@ class WanPlus:
                         if team_a == team_name or team_b == team_name:
                             msg = msg + f'{match_date}\t{start_time}\n{match_name} {group_name}\n{team_a} VS {team_b}\n\n'
                 # else:
-                # msg = msg + f'{daytime}没有比赛。\n'
+                #     msg = msg + f'{daytime}没有比赛。\n'
             # print(msg)
             return msg
         else:
@@ -156,8 +157,10 @@ class WanPlus:
                 x = 7 * j
                 match_time = (date.today() + timedelta(days=x)).strftime("%Y-%m-%d")
                 msg = self.get_scheduleList_by_week(str(match_time), '全部比赛', self.team_list[i])
+
                 if msg:
                     msgs = msgs + msg
+        print(msgs)
         return msgs
 
     def send_tomorrow_lpl_game(self):

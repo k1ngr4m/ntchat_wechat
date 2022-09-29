@@ -305,14 +305,14 @@ class Csgo(BaseFunc):
                         # 钱够了
                         if money >= case_money:
                             if case_name == '古堡':
-                                if from_wxid == self.xf_id:
+                                if from_wxid == self.robot_id:
                                     msg_1, diff = self.open_collection_case_from_json(case_count, case_name,
                                                                                       single_case_money, signal=1)
                                 else:
                                     msg_1, diff = self.open_collection_case_from_json(case_count, case_name,
                                                                                       single_case_money)
                             else:
-                                if from_wxid == self.xf_id:
+                                if from_wxid == self.robot_id:
                                     msg_1, diff = self.open_case_from_json(case_count, case_name, single_case_money,
                                                                            signal=1)
                                 else:

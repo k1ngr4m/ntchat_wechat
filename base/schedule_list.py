@@ -36,7 +36,7 @@ def schedules(wechat):
     schedule.every().wednesday.at('16:20').do(send_afternoon_msg, wechat=wechat)
     schedule.every().thursday.at('16:20').do(send_afternoon_msg, wechat=wechat)
     schedule.every().friday.at('16:20').do(send_afternoon_msg, wechat=wechat)
-    schedule.every().day.at('00:00').do(add_money_everyday, wechat=wechat)
+    # schedule.every().day.at('00:00').do(add_money_everyday, wechat=wechat)
     schedule.every().day.at('09:10').do(send_lpl_tomorrow_game_list, wechat=wechat)
     # schedule.every(5).seconds.do(send_everyday_a_song, wechat=wechat)
     try:

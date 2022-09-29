@@ -10,6 +10,7 @@ import urllib.request
 
 class BaseFunc:
     def __init__(self):
+        self.robot_id = 'wxid_2ugano9m3lwl22'
         self.movie_signal = True
         self.cdkey = 'DSAJK-DHO34-A341G-F45VB'
         self.cdkey_signal = True
