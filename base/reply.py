@@ -13,6 +13,7 @@ from csgo.csgo import Csgo
 
 from base.base import BaseFunc
 from game import mine
+from game.ticket import Ticket
 
 
 class Reply(BaseFunc):
@@ -122,10 +123,6 @@ class Reply(BaseFunc):
             res = Csgo().check_balance(from_wxid)
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
-        elif msg == '测试':
-            res = WanPlus().send_tomorrow_lpl_game()
-            self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
-
         elif msg == '扫雷' and bf.into_mine_signal:
             bf.user = from_wxid
             bf.mine_signal = True
@@ -137,7 +134,7 @@ class Reply(BaseFunc):
             res = '已经有人在玩扫雷，请等待当前玩家结束。'
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
-        if from_wxid == bf.user and bf.mine_signal:
+        elif from_wxid == bf.user and bf.mine_signal:
             if msg == '退出':
                 res = '欢迎下次来玩。'
                 self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
@@ -145,6 +142,18 @@ class Reply(BaseFunc):
                 bf.mine_signal = False
             else:
                 mine.plays(wechat, room_wxid, msg, bf)
+
+        # elif msg == '购买彩票':
+        #     res = Ticket().get_num_and_save(from_wxid)
+        #     self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+        #
+        # elif msg == '开奖':
+        #     res = Ticket().run_a_lottery(from_wxid)
+        #     self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
+        elif msg == '测试':
+            res = Ticket().get_num_and_save(from_wxid)
+            self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
         # @菲菲说的话
         elif nickname in msg:
