@@ -25,6 +25,7 @@ class BaseFunc:
         self.xf_id = 'wxid_lzedtxou05t122'
         self.answer = '你的眼睛再说我愿意'
         self.user = ''
+        self.pipi_room = '22817919155@chatroom'
         self.mine_signal = False
         self.into_mine_signal = True
 

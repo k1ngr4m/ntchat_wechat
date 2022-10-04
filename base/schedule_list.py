@@ -29,15 +29,18 @@ schedule.every().minute.at(":17").do(job)
 
 def schedules(wechat):
     schedule.every().day.at('08:00').do(send_morning_msg, wechat=wechat)
-    schedule.every().day.at('11:20').do(send_noon_msg, wechat=wechat)
-    schedule.every().day.at('15:00').do(send_everyday_a_song, wechat=wechat)
-    schedule.every().monday.at('16:20').do(send_afternoon_msg, wechat=wechat)
-    schedule.every().tuesday.at('16:20').do(send_afternoon_msg, wechat=wechat)
-    schedule.every().wednesday.at('16:20').do(send_afternoon_msg, wechat=wechat)
-    schedule.every().thursday.at('16:20').do(send_afternoon_msg, wechat=wechat)
-    schedule.every().friday.at('16:20').do(send_afternoon_msg, wechat=wechat)
+    # schedule.every().day.at('11:20').do(send_noon_msg, wechat=wechat)
+    # schedule.every().day.at('15:00').do(send_everyday_a_song, wechat=wechat)
+    # schedule.every().monday.at('16:20').do(send_afternoon_msg, wechat=wechat)
+    # schedule.every().tuesday.at('16:20').do(send_afternoon_msg, wechat=wechat)
+    # schedule.every().wednesday.at('16:20').do(send_afternoon_msg, wechat=wechat)
+    # schedule.every().thursday.at('16:20').do(send_afternoon_msg, wechat=wechat)
+    # schedule.every().friday.at('16:20').do(send_afternoon_msg, wechat=wechat)
     # schedule.every().day.at('00:00').do(add_money_everyday, wechat=wechat)
-    schedule.every().day.at('09:10').do(send_lpl_tomorrow_game_list, wechat=wechat)
+
+
+
+    schedule.every().day.at('19:00').do(send_lpl_tomorrow_game_list, wechat=wechat)
     # schedule.every(5).seconds.do(send_everyday_a_song, wechat=wechat)
     try:
         while True:
@@ -72,7 +75,7 @@ def send_everyday_a_song(wechat):
     wechat.send_text(to_wxid=bf().leibao_room, content=content)
     # wechat.send_text(to_wxid=bf().debug_room, content=msg)
     # wechat.send_link_card(to_wxid=bf().debug_room, title=songName, desc=songArtists, url=mp3url, image_url=songPic)
-    # wechat.send_text(to_wxid=bf().debug_room, content=content)
+    # wechat.send_text(to_wxid=bf().debug_room, content=content)s
 
 
 def send_noon_msg(wechat):
@@ -95,4 +98,5 @@ def add_money_everyday(wechat):
 def send_lpl_tomorrow_game_list(wechat):
     res = WanPlus().send_tomorrow_lpl_game()
     wechat.send_text(to_wxid=bf().leibao_room, content=res)
-    wechat.send_text(to_wxid=bf().cch_room, content=res)
+    # wechat.send_text(to_wxid=bf().cch_sroom, content=res)
+    wechat.send_text(to_wxid=bf().pipi_room, content=res)

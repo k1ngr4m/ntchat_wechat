@@ -425,29 +425,33 @@ class Csgo(BaseFunc):
 
         number = float(number[0])
         try:
-            for x in range(len(at_list)):
-                user_wxid = at_list[x]
-                with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'r', encoding='utf-8') as a:
-                    res = json.load(a)
-                    for i in range(len(res) - 1):
-                        if res[i]['from_wxid'] == from_wxid:
-                            money = res[i]['money']
-                            if number > money:
-                                msg = f'您当前余额为{money}元，请重试。'
-                                return msg
-                            else:
-                                res[i]['money'] = round(money - number, 2)
-                                for j in range(len(res) - 1):
-                                    if res[j]['from_wxid'] == user_wxid:
-                                        money_1 = res[j]['money']
-                                        res[j]['money'] = round(money_1 + number, 2)
-                                        # res.sort()
-                                        with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'w',
-                                                  encoding='utf-8') as b:
-                                            result = json.dumps(res, ensure_ascii=False)
-                                            b.write(result)
-                                        msg = f'转账成功！\n您当前余额为{res[i]["money"]}\nTa当前余额为{res[j]["money"]}'
-                                        return msg
+            if not at_list:
+                msg = 'error'
+                return msg
+            else:
+                for x in range(len(at_list)):
+                    user_wxid = at_list[x]
+                    with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'r', encoding='utf-8') as a:
+                        res = json.load(a)
+                        for i in range(len(res) - 1):
+                            if res[i]['from_wxid'] == from_wxid:
+                                money = res[i]['money']
+                                if number > money:
+                                    msg = f'您当前余额为{money}元，请重试。'
+                                    return msg
+                                else:
+                                    res[i]['money'] = round(money - number, 2)
+                                    for j in range(len(res) - 1):
+                                        if res[j]['from_wxid'] == user_wxid:
+                                            money_1 = res[j]['money']
+                                            res[j]['money'] = round(money_1 + number, 2)
+                                            # res.sort()
+                                            with open(r'C:\py\git\PythonProject\ntchat_wechat\csgo\user_money.json', 'w',
+                                                      encoding='utf-8') as b:
+                                                result = json.dumps(res, ensure_ascii=False)
+                                                b.write(result)
+                                            msg = f'转账成功！\n您当前余额为{res[i]["money"]}\nTa当前余额为{res[j]["money"]}'
+                                            return msg
         except Exception as e:
             print(e)
             return e
