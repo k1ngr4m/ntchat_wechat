@@ -3,7 +3,6 @@ from datetime import datetime, date, timedelta
 from dateutil.parser import parse
 import requests
 
-
 class WanPlus:
     def __init__(self):
         self.team_list = ['RNG', 'EDG', 'TES', 'JDG']

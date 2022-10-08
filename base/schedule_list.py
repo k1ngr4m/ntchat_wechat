@@ -5,6 +5,7 @@ import api
 from api import op_gg
 from api.free import FreeApi
 from api.hefeng import HefengApi
+from api.hupu import Hupu
 from api.muxiaoguo import MuxiaoguoApi
 from api.qingyunke import get_reply
 from api.tianapi import TianApi
@@ -13,6 +14,7 @@ from base.base import BaseFunc as bf
 from base.reply import Reply
 from csgo.csgo import Csgo
 import schedule
+
 """
 # 每小时执行
 schedule.every().hour.do(job)
@@ -38,9 +40,11 @@ def schedules(wechat):
     # schedule.every().friday.at('16:20').do(send_afternoon_msg, wechat=wechat)
     # schedule.every().day.at('00:00').do(add_money_everyday, wechat=wechat)
 
-
-
     schedule.every().day.at('19:00').do(send_lpl_tomorrow_game_list, wechat=wechat)
+
+    schedule.every().day.at('00:00').do(get_hupu_cookie)
+    schedule.every(5).minutes.do(send_hupu_msg, wechat=wechat)
+
     # schedule.every(5).seconds.do(send_everyday_a_song, wechat=wechat)
     try:
         while True:
@@ -100,3 +104,22 @@ def send_lpl_tomorrow_game_list(wechat):
     wechat.send_text(to_wxid=bf().leibao_room, content=res)
     # wechat.send_text(to_wxid=bf().cch_sroom, content=res)
     wechat.send_text(to_wxid=bf().pipi_room, content=res)
+
+
+def get_hupu_cookie():
+    Hupu().autologin()
+
+
+
+def send_hupu_msg(wechat):
+    hupu = Hupu()
+    title = hupu.get_report()
+    res = hupu.contrast(title)
+    if res:
+        with open(r'data/hupu_title.txt', 'r', encoding='utf-8') as f:
+            title = f.read()
+        # send title
+        wechat.send_text(to_wxid=bf().pipi_room, content=title)
+        print(title)
+    else:
+        return
