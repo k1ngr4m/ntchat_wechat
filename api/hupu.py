@@ -32,19 +32,24 @@ class Hupu:
             print(e)
 
     def get_report(self):
-        self.driver.get('https://my.hupu.com/35904121053081')
-        time.sleep(1)
-        lists = self.driver.find_elements(By.XPATH, '//*[contains(text(), "[赛后")]')
-        lists[0].click()
-        time.sleep(1)
+        try:
+            self.driver.get('https://my.hupu.com/35904121053081')
+            time.sleep(1)
+            lists = self.driver.find_elements(By.XPATH, '//*[contains(text(), "[赛后")]')
+            if lists:
+                lists[0].click()
+                time.sleep(1)
 
-        handles = self.driver.window_handles  # 获取当前浏览器的所有窗口句柄
+                handles = self.driver.window_handles  # 获取当前浏览器的所有窗口句柄
 
-        self.driver.switch_to.window(handles[-1])  # 切换到最新打开的窗口
-        name = self.driver.find_element(By.XPATH, '//*[@class="name"]').text
-        print('title got')
-        self.driver.quit()
-        return name
+                self.driver.switch_to.window(handles[-1])  # 切换到最新打开的窗口
+                name = self.driver.find_element(By.XPATH, '//*[@class="name"]').text
+                print('title got')
+                self.driver.quit()
+                return name
+        except Exception as e:
+            print(e)
+            return e
 
     def contrast(self, title):
         with open(r'data/hupu_title.txt', 'r', encoding='utf-8') as f:
