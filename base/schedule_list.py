@@ -120,6 +120,7 @@ def send_hupu_msg(wechat):
             title = f.read()
         # send title
         wechat.send_text(to_wxid=bf().pipi_room, content=title)
+        wechat.send_text(to_wxid=bf().leibao_room, content=title)
         print(title)
     else:
         return
