@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 import random
 import re
 
@@ -101,9 +101,11 @@ class Reply(BaseFunc):
             res = TianApi().gameNews()
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
-        elif msg == '狗狗' or msg == '猫猫':
+        elif msg == '狗狗' or msg == '猫猫' or msg == '柴犬':
             if msg == '狗狗':
                 filename = FreeApi().random_dog()
+            elif msg == '柴犬':
+                filename = FreeApi().random_Shiba()
             else:
                 filename = FreeApi().random_cat()
             self.send_imagemsg(wechat, room_wxid, from_wxid, filename, filename)

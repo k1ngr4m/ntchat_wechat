@@ -13,6 +13,12 @@ class FreeApi(BaseFunc):
         pic_url = response['message']
         return self.pic(pic_url, 'temp')
 
+    def random_Shiba(self):
+        url = 'https://dog.ceo/api/breed/shiba/images/random'
+        response = requests.get(url).json()
+        pic_url = response['message']
+        return self.pic(pic_url, 'temp')
+    
     # 随机猫猫照片
     def random_cat(self):
         url = 'https://api.thecatapi.com/v1/images/search?api_key=live_KcFizldcZepQ5GCYohanKDemRK9AVqQGcst4RDF9xrzXIUMtr3Oj7HjXt82i9yT2&breed_id=amis'
