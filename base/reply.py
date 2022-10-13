@@ -126,6 +126,12 @@ class Reply(BaseFunc):
             else:
                 mine.plays(wechat, room_wxid, msg, bf)
 
+        elif msg == 'lol账号':
+            res = '雾散皆是草芥：\n3499851988\nishrj200047\n\n' \
+                  '不万能的青年：\n2224776894\nBwndqn1203.\n\n' \
+                  '欧阳娜娜的小男友：\n18357998501\nSunlei1208'
+            self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
         # elif msg == '购买彩票':
         #     res = Ticket().get_num_and_save(from_wxid)
         #     self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
