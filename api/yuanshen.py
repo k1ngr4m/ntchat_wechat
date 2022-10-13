@@ -1,3 +1,4 @@
+import datetime
 import time
 
 from selenium import webdriver
@@ -31,7 +32,7 @@ class Yuanshen:
         # print(width, height)
         # 将浏览器的宽高设置成刚刚获取的宽高
         driver.set_window_size(width + 400, height + 100)
-        path = r'E:\Python git\ntchat_wechat\data\yuanshen_time_manage.png'
+        path = r'C:\py\git\PythonProject\ntchat_wechat\data\yuanshen_time_manage.png'
 
         png = driver.find_element(By.XPATH, '//*[@id="mw-content-text"]/div/div/div[3]/div[4]/div')
         png.screenshot(path)
@@ -39,5 +40,9 @@ class Yuanshen:
         print('finished')
         return path
 
+    def get_item_path(self):
+        date = datetime.date.today().weekday()
+        print(date)
+
 if __name__ == '__main__':
-    Yuanshen().get_item()
+    Yuanshen().get_item_path()

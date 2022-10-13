@@ -58,7 +58,7 @@ class Reply(BaseFunc):
         elif '原神' in msg:
             if msg == '今日原神材料':
                 path = Yuanshen().get_item()
-                self.send_imagemsg(wechat, room_wxid, from_wxid, path, path)
+                wechat.send_image(to_wxid=room_wxid, file_path=path)
 
         elif msg == 'print_user_money':
             msg = Csgo().print_user_money(wechat, room_wxid)
