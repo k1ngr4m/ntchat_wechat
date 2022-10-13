@@ -43,19 +43,19 @@ class Yuanshen:
     def get_item_path(self):
         weekday = datetime.date.today().isoweekday()
         print(weekday)
-        path = 'data/yuanshen'
+        path = r'C:\py\git\PythonProject\ntchat_wechat\data\yuanshen'
         if weekday == 1 or weekday == 4:
-            role_path = path + '/role_1_4.png'
-            weapon_path = path + '/weapon_1_4.png'
+            role_path = path + r'\role_1_4.png'
+            weapon_path = path + r'\weapon_1_4.png'
         elif weekday == 2 or weekday == 5:
-            role_path = path + '/role_2_5.png'
-            weapon_path = path + '/weapon_2_5.png'
+            role_path = path + r'\role_2_5.png'
+            weapon_path = path + r'\weapon_2_5.png'
         elif weekday == 3 or weekday == 6:
-            role_path = path + '/role_3_6.png'
-            weapon_path = path + '/weapon_3_6.png'
+            role_path = path + r'\role_3_6.png'
+            weapon_path = path + r'\weapon_3_6.png'
         else:
-            role_path = path + '/role_all.png'
-            weapon_path = path + '/weapon_all.png'
+            role_path = path + r'\role_all.png'
+            weapon_path = path + r'\weapon_all.png'
         print(role_path, weapon_path)
         return role_path, weapon_path
 
