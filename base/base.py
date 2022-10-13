@@ -23,7 +23,6 @@ class BaseFunc:
         self.cst_id = 'wxid_lo73nhg1rw0322'
         self.leibao_room = '4654915424@chatroom'
         self.xf_id = 'wxid_lzedtxou05t122'
-        self.answer = '你的眼睛再说我愿意'
         self.user = ''
         self.pipi_room = '22817919155@chatroom'
         self.mine_signal = False

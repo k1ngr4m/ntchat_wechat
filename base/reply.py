@@ -37,41 +37,12 @@ class Reply(BaseFunc):
             msg_2 = Csgo().check_balance(from_wxid)
             msg = msg_1 + msg_2
             self.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
-        elif 'set_answer' in msg:
-            temp = self.delete_head(msg, 'set_answer ')
-            self.answer = temp
-            self.send_textmsg(wechat, room_wxid, from_wxid, self.answer, self.answer)
-            return
 
     def others_statement(self, wechat, room_wxid, from_wxid, at_user_list, msg, bf):
         nickname = "@菲菲\u2005"
         # 大家说的话
-        if '电影' in msg and self.movie_signal:
-            res = '买电影票找@崔崔\u2005'
-            self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
-            self.movie_signal = False
 
-        elif '@菲菲\u2005好的！' in msg:
-            self.movie_signal = True
-            self.cdkey_signal = True
-            res = '嘿嘿！'
-            self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
-
-        elif msg == self.answer and self.cdkey_signal:
-            msg = f'恭喜您触发隐藏密码，您将获得一个cdk：{self.cdkey}'
-            self.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
-            self.cdkey_signal_2 = True
-            self.cdkey_signal = False
-
-        elif msg == self.cdkey and self.cdkey_signal_2:
-            bonus = random.randint(10000, 20000)
-            Csgo().add_money(from_wxid, bonus)
-            msg = f'已为您添加{bonus}元'
-            self.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
-            self.cdkey_signal = False
-            self.cdkey_signal_2 = False
-
-        elif '大乱斗' in msg:
+        if '大乱斗' in msg:
             self.opgg(msg, wechat, room_wxid, from_wxid)
 
         elif '转账' in msg:
