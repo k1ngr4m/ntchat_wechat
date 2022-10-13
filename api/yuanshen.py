@@ -41,8 +41,24 @@ class Yuanshen:
         return path
 
     def get_item_path(self):
-        date = datetime.date.today().weekday()
-        print(date)
+        weekday = datetime.date.today().isoweekday()
+        print(weekday)
+        path = 'data/yuanshen'
+        if weekday == 1 or weekday == 4:
+            role_path = path + '/role_1_4.png'
+            weapon_path = path + '/weapon_1_4.png'
+        elif weekday == 2 or weekday == 5:
+            role_path = path + '/role_2_5.png'
+            weapon_path = path + '/weapon_2_5.png'
+        elif weekday == 3 or weekday == 6:
+            role_path = path + '/role_3_6.png'
+            weapon_path = path + '/weapon_3_6.png'
+        else:
+            role_path = path + '/role_all.png'
+            weapon_path = path + '/weapon_all.png'
+        print(role_path, weapon_path)
+        return role_path, weapon_path
+
 
 if __name__ == '__main__':
     Yuanshen().get_item_path()
