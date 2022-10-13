@@ -10,6 +10,7 @@ from api.muxiaoguo import MuxiaoguoApi
 from api.qingyunke import get_reply
 from api.tianapi import TianApi
 from api.wanplus import WanPlus
+from api.yuanshen import Yuanshen
 from csgo.csgo import Csgo
 
 from base.base import BaseFunc
@@ -53,6 +54,11 @@ class Reply(BaseFunc):
 
         elif '查询比赛' in msg:
             self.search_game(msg, wechat, room_wxid, from_wxid)
+
+        elif '原神' in msg:
+            if msg == '今日原神材料':
+                path = Yuanshen().get_item()
+                self.send_imagemsg(wechat, room_wxid, from_wxid, path, path)
 
         elif msg == 'print_user_money':
             msg = Csgo().print_user_money(wechat, room_wxid)

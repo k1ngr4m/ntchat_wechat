@@ -64,11 +64,11 @@ class BaseFunc:
             wechat.send_text(to_wxid=from_wxid, content=from_res)
 
     # 发送图片消息
-    def send_imagemsg(self, wechat, room_wxid, from_wxid, room_res, from_res):
+    def send_imagemsg(self, wechat, room_wxid, from_wxid, room_file_path, from_file_path):
         if room_wxid != "":
-            wechat.send_image(to_wxid=room_wxid, file_path=room_res)
+            wechat.send_image(to_wxid=room_wxid, file_path=room_file_path)
         else:
-            wechat.send_image(to_wxid=from_wxid, file_path=from_res)
+            wechat.send_image(to_wxid=from_wxid, file_path=from_file_path)
 
     # 发送url图片游戏
     def send_url_image_msg(self, wechat, room_wxid, from_wxid, url, pic_name):
