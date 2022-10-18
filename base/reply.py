@@ -23,7 +23,7 @@ from game.ticket import Ticket
 class Reply(BaseFunc):
     def get_reply(self, bf, wechat, msg, from_wxid, room_wxid, at_user_list):
 
-        EmotionalAnalysis().emotional_analysis(wechat, from_wxid, msg)
+        # EmotionalAnalysis().emotional_analysis(wechat, from_wxid, msg)
 
         # ckd说的话
         if from_wxid == self.ckd_id:
