@@ -136,6 +136,10 @@ class Reply(BaseFunc):
                   '欧阳娜娜的小男友：\n18357998501\nSunlei1208'
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
+        elif msg == '情感分析':
+            res = EmotionalAnalysis().get_my_emotional_analysis(from_wxid)
+            self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
         # elif msg == '购买彩票':
         #     res = Ticket().get_num_and_save(from_wxid)
         #     self.send_textmsg(wechat, room_wxid, from_wxid, res, res)

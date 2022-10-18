@@ -9,11 +9,40 @@ from base.base import BaseFunc
 class EmotionalAnalysis:
     def __init__(self):
         self.token = 'ftfllnjrlgd5d7tasnu2i1lr9hp7iuij'
+        self.file_name = 'data/emotional_analysis.json'
 
+    # 情绪分析
     def emotional_analysis(self, wechat, from_wxid, msg):
         api_data = self.get_apidata(msg)
         self.save_data(wechat, from_wxid, api_data)
 
+    def get_my_emotional_analysis(self, from_wxid):
+        with open(self.file_name, 'r', encoding='utf-8') as f:
+            saved_data = json.load(f)
+            for i in range(len(saved_data)):
+                wxid = saved_data[i]['wxid']
+                if wxid == from_wxid:
+                    loaded_data = saved_data[i]['data']
+                    loaded_positive_prob = loaded_data['positive_prob']  # 积极类别的概率
+                    loaded_negative_prob = loaded_data['negative_prob']  # 消极类别的概率
+                    loaded_part_of_speech = loaded_data['part_of_speech']  # 词性标注、分析
+                    loaded_sentiments = loaded_data['sentiments']  # 表示情感极性分类结果的概率
+                    loaded_good = loaded_data['good']
+                    loaded_happiness = loaded_data['happiness']
+                    loaded_sadness = loaded_data['sadness']
+                    loaded_anger = loaded_data['anger']
+                    loaded_fear = loaded_data['fear']
+                    loaded_wickedness = loaded_data['wickedness']
+                    loaded_shock = loaded_data['shock']
+                    msg = f'积极类别的概率：{loaded_positive_prob}\n' \
+                          f'消极类别的概率：{loaded_negative_prob}\n' \
+                          f'情感极性分类结果的概率：{loaded_sentiments}' \
+                          f'{loaded_good}/{loaded_happiness}/{loaded_sadness}/{loaded_anger}/' \
+                          f'{loaded_fear}/{loaded_wickedness}/{loaded_shock}'
+                    return msg
+
+
+    # 得到api数据
     def get_apidata(self, text):
         try:
             url = 'https://eolink.o.apispace.com/wbqgfx/api/v1/forward/sentiment_anls'
@@ -102,6 +131,7 @@ class EmotionalAnalysis:
         data_lists = self.remove_duplicate(init_list)
         return data_lists
 
+    # list去重
     def remove_duplicate(self, list1):
         """
         列表套字典去重复
@@ -126,6 +156,7 @@ class EmotionalAnalysis:
                 newlist.append(i)
         return newlist
 
+    # 数据处理
     def data_deal(self, api_data, saved_data, from_wxid):
         api_positive_prob = api_data['positive_prob']  # 积极类别的概率
         api_negative_prob = api_data['negative_prob']  # 消极类别的概率
@@ -138,8 +169,6 @@ class EmotionalAnalysis:
         api_fear = api_data['惧']
         api_wickedness = api_data['恶']
         api_shock = api_data['惊']
-
-
 
         for i in range(len(saved_data)):
             wxid = saved_data[i]['wxid']
