@@ -28,19 +28,20 @@ class BaseFunc:
         self.mine_signal = False
         self.into_mine_signal = True
 
-    def get_contacts_and_rooms(self, wechat):
-        # 等待登录
-        wechat.wait_login()
-
+    def get_contacts(self, wechat):
         # 获取联系人列表并输出
         contacts = wechat.get_contacts()
 
         print("联系人列表: ")
         print(contacts)
 
+        return contacts
+
+    def get_rooms(self, wechat):
         rooms = wechat.get_rooms()
         print("群列表: ")
         print(rooms)
+        return rooms
 
     def get_room_member_wxid(self, wechat, room_wxid):
         data = wechat.get_room_members(room_wxid)

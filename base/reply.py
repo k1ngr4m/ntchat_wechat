@@ -4,6 +4,8 @@ import re
 
 import api
 from api import op_gg
+from api.APISpace import emotional_analysis
+from api.APISpace.emotional_analysis import EmotionalAnalysis
 from api.free import FreeApi
 from api.hupu import Hupu
 from api.muxiaoguo import MuxiaoguoApi
@@ -20,6 +22,8 @@ from game.ticket import Ticket
 
 class Reply(BaseFunc):
     def get_reply(self, bf, wechat, msg, from_wxid, room_wxid, at_user_list):
+
+        EmotionalAnalysis().emotional_analysis(wechat, from_wxid, msg)
 
         # ckd说的话
         if from_wxid == self.ckd_id:
@@ -141,20 +145,10 @@ class Reply(BaseFunc):
         #     self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
         elif msg == '测试':
-            try:
-                hupu = Hupu()
-                title = hupu.get_report()
-                res = hupu.contrast(title)
-                if res:
-                    with open(r'data/hupu_title.txt', 'r', encoding='utf-8') as f:
-                        title = f.read()
-                    # send title
-                    wechat.send_text(to_wxid=room_wxid, content=title)
-                    print(title)
-                else:
-                    return
-            except Exception as e:
-                print(e)
+            ea = EmotionalAnalysis()
+            datas = "{'positive_prob': 0.08695652173913043, 'negative_prob': 0.043478260869565216, 'part_of_speech': [['自动', 'd'], ['判断', 'v'], ['该', 'r'], ['文本', 'n'], ['的', 'u'], ['情感', 'n'], ['极性', 'vn'], ['类别', 'n'], ['并', 'c'], ['给出', 'v'], ['相应', 'v'], ['的置信', 'm'], ['度', 'q'], ['，', 'w'], ['情感', 'n'], ['极性', 'Dg'], ['分为', 'v'], ['积极', 'a'], ['、', 'w'], ['消极', 'a'], ['、', 'w'], ['中性', 'n'], ['。', 'w']], 'sentiments': 0.99996471967906, 'words': 23, 'sentences': 2, '好': 1, '乐': 0, '哀': 2, '怒': 0, '惧': 0, '恶': 1, '惊': 0}"
+            print(datas)
+            ea.save_data(wechat, from_wxid, datas)
 
 
         # @菲菲说的话
