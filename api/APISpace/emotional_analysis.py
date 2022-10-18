@@ -42,6 +42,7 @@ class EmotionalAnalysis:
                     return msg
 
 
+
     # 得到api数据
     def get_apidata(self, text):
         try:
