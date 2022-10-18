@@ -158,8 +158,12 @@ class Reply(BaseFunc):
         # @菲菲说的话
         elif nickname in msg:
             temp_msg = self.delete_head(msg, nickname)
+            EmotionalAnalysis().emotional_analysis(wechat, from_wxid, temp_msg)
             res = api.qingyunke.get_reply(temp_msg)
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
+        else:
+            EmotionalAnalysis().emotional_analysis(wechat, from_wxid, msg)
 
     def open_case(self, msg, wechat, room_wxid, from_wxid):
         print(msg)
