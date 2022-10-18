@@ -34,9 +34,10 @@ class EmotionalAnalysis:
                     loaded_fear = loaded_data['fear']
                     loaded_wickedness = loaded_data['wickedness']
                     loaded_shock = loaded_data['shock']
-                    msg = f'积极类别的概率：{round(loaded_positive_prob, 2)}\n' \
+                    msg = f'您的情感分析如下：\n' \
+                          f'积极类别的概率：{round(loaded_positive_prob, 2)}\n' \
                           f'消极类别的概率：{round(loaded_negative_prob, 2)}\n' \
-                          f'情感极性分类结果的概率：{round(loaded_sentiments, 2)}' \
+                          f'情感极性分类结果的概率：{round(loaded_sentiments, 2)}/' \
                           f'{round(loaded_good, 2)}/{round(loaded_happiness, 2)}/{round(loaded_sadness, 2)}/{round(loaded_anger, 2)}/' \
                           f'{round(loaded_fear, 2)}/{round(loaded_wickedness, 2)}/{round(loaded_shock, 2)}'
                     return msg
