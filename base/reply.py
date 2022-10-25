@@ -1,4 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
+import json
 import random
 import re
 
@@ -24,6 +25,19 @@ class Reply(BaseFunc):
     def get_reply(self, bf, wechat, msg, from_wxid, room_wxid, at_user_list):
 
         # EmotionalAnalysis().emotional_analysis(wechat, from_wxid, msg)
+        dirty_list_path = 'data/dirty_list'
+        dirty_list = ['/en.json', '/zh.json', '/ja.json']
+        for i in range(len(dirty_list)):
+            dirty_list_name = dirty_list_path + dirty_list[i]
+            with open(dirty_list_name, 'r', encoding='utf-8') as f:
+                data_list = json.load(f)
+                for a in data_list:
+                    if msg.count(a):
+                        print(f"字符串中存在{a}")
+                        res = '检测到你的发言带有恶意，请注意你的言行！'
+                        self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
+
 
         # ckd说的话
         if from_wxid == self.ckd_id:
