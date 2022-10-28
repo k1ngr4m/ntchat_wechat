@@ -162,9 +162,12 @@ class Ticket:
 
     def bet_one(self):
         red_ball_buy, blue_ball_buy = self.get_random_number()
-        print(f'您购买的红色球：{red_ball_buy}。您购买的蓝色球：{blue_ball_buy}')
+        msg = ''
+        msg = msg + f'您购买的红色球：{red_ball_buy}。您购买的蓝色球：{blue_ball_buy}\n'
+        # print(f'您购买的红色球：{red_ball_buy}。您购买的蓝色球：{blue_ball_buy}')
         red_ball_res, blue_ball_res = self.get_random_number()
-        print(f'红球中奖号码：{red_ball_res}。蓝球中奖号码：{blue_ball_res}\n')
+        msg = msg + f'红球中奖号码：{red_ball_res}。蓝球中奖号码：{blue_ball_res}\n'
+        # print(f'红球中奖号码：{red_ball_res}。蓝球中奖号码：{blue_ball_res}\n')
 
         red_lucky_count = 0
         blue_lucky_count = 0
@@ -179,10 +182,12 @@ class Ticket:
 
         prize = self.situations_of_winning(red_lucky_count, blue_lucky_count)
         if prize != -1:
-            prize_msg = f'恭喜您，中了{prize}等奖！\n'
+            prize_msg = f'恭喜您，中了{prize}等奖！'
         else:
-            prize_msg = '很遗憾，您没有中奖。\n'
+            prize_msg = '很遗憾，您没有中奖。'
         print(prize_msg)
+        msg = msg + prize_msg
+        return msg
 
 
 if __name__ == '__main__':
