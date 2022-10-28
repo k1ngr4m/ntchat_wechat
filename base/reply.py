@@ -27,6 +27,7 @@ class Reply(BaseFunc):
             # EmotionalAnalysis().emotional_analysis(wechat, from_wxid, msg)
             dirty_list_path = 'data/dirty_list'
             dirty_list = ['/en.json', '/zh.json', '/ja.json']
+            dirty = False
             for i in range(len(dirty_list)):
                 dirty_list_name = dirty_list_path + dirty_list[i]
                 with open(dirty_list_name, 'r', encoding='utf-8') as f:
@@ -34,8 +35,10 @@ class Reply(BaseFunc):
                     for a in data_list:
                         if msg.count(a):
                             print(f"字符串中存在{a}")
-                            res = '检测到你的发言带有恶意，请注意你的言行！'
-                            self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+                            dirty = True
+            if dirty:
+                res = '检测到你的发言带有恶意，请注意你的言行！'
+                self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
         except Exception as e:
             print(e)
 
