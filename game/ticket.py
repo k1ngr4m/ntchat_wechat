@@ -114,10 +114,12 @@ class Ticket:
                             prize_msg = '很遗憾，您没有中奖。\n'
 
                         msg = msg + buy_msg + prize_msg
-                        print(msg)
+                        # print(msg)
 
                 self.delete_ticket(from_wxid)
-                return lucky_ball_msg+msg
+                print("!!!!!!")
+                print(lucky_ball_msg + msg)
+                return lucky_ball_msg + msg
         except Exception as e:
             print(e)
             return e
@@ -155,9 +157,35 @@ class Ticket:
 
         for i in range(len(buy_data)):
             wxid = buy_data[i]['from_wxid']
-            # if wxid == from_wxid:
-                # buy_data.pop(buy_data[i])
+            if wxid == from_wxid:
+                buy_data.remove(buy_data[i])
 
-# if __name__ == '__main__':
+    def bet_one(self):
+        red_ball_buy, blue_ball_buy = self.get_random_number()
+        print(f'您购买的红色球：{red_ball_buy}。您购买的蓝色球：{blue_ball_buy}')
+        red_ball_res, blue_ball_res = self.get_random_number()
+        print(f'红球中奖号码：{red_ball_res}。蓝球中奖号码：{blue_ball_res}\n')
+
+        red_lucky_count = 0
+        blue_lucky_count = 0
+
+        for red_result_item in red_ball_res:
+            for red_buy_item in red_ball_buy:
+                if red_result_item == red_buy_item:
+                    red_lucky_count += 1
+
+        if blue_ball_res == blue_ball_buy:
+            blue_lucky_count = 1
+
+        prize = self.situations_of_winning(red_lucky_count, blue_lucky_count)
+        if prize != -1:
+            prize_msg = f'恭喜您，中了{prize}等奖！\n'
+        else:
+            prize_msg = '很遗憾，您没有中奖。\n'
+        print(prize_msg)
+
+
+if __name__ == '__main__':
     # Ticket().get_num_and_save('2')
-    # Ticket().run_a_lottery()
+    # Ticket().run_a_lottery('2')
+    Ticket().bet_one()

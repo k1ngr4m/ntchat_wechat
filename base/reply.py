@@ -159,6 +159,10 @@ class Reply(BaseFunc):
             res = EmotionalAnalysis().get_my_emotional_analysis(from_wxid)
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
+        elif msg == '来一注':
+            res = Ticket().bet_one()
+            self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
         # elif msg == '购买彩票':
         #     res = Ticket().get_num_and_save(from_wxid)
         #     self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
