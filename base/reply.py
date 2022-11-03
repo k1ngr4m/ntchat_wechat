@@ -163,6 +163,10 @@ class Reply(BaseFunc):
             res = Ticket().bet_one()
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
+        elif msg == '什么时候中一等奖':
+            res = Ticket().get_lucky_round()
+            self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
         # elif msg == '购买彩票':
         #     res = Ticket().get_num_and_save(from_wxid)
         #     self.send_textmsg(wechat, room_wxid, from_wxid, res, res)

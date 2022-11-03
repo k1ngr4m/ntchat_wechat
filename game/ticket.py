@@ -189,6 +189,33 @@ class Ticket:
         msg = msg + prize_msg
         return msg
 
+    def get_lucky_round(self):
+        rounds = 0
+        while True:
+            rounds += 1
+            red_ball_buy, blue_ball_buy = self.get_random_number()
+            red_ball_res, blue_ball_res = self.get_random_number()
+
+            red_lucky_count = 0
+            blue_lucky_count = 0
+
+            for red_result_item in red_ball_res:
+                for red_buy_item in red_ball_buy:
+                    if red_result_item == red_buy_item:
+                        red_lucky_count += 1
+
+            if blue_ball_res == blue_ball_buy:
+                blue_lucky_count = 1
+
+            prize = self.situations_of_winning(red_lucky_count, blue_lucky_count)
+
+            if prize == 1:
+                msg = f'经过第{rounds}轮，您中一等奖啦！\n'
+                msg = msg + f'您购买的红色球：{red_ball_buy}。您购买的蓝色球：{blue_ball_buy}\n'
+                msg = msg + f'红球中奖号码：{red_ball_res}。蓝球中奖号码：{blue_ball_res}\n'
+                return msg
+
+
 
 if __name__ == '__main__':
     # Ticket().get_num_and_save('2')
