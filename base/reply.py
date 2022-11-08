@@ -164,6 +164,7 @@ class Reply(BaseFunc):
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
         elif msg == '什么时候中一等奖':
+            print('start random')
             res = Ticket().get_lucky_round()
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
