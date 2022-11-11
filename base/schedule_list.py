@@ -3,6 +3,7 @@ import time
 from datetime import datetime
 import api
 from api import op_gg
+from api.bilibili import Bilibili
 from api.free import FreeApi
 from api.hefeng import HefengApi
 from api.hupu import Hupu
@@ -30,6 +31,7 @@ schedule.every().minute.at(":17").do(job)
 
 
 def schedules(wechat):
+    schedule.every(5).minutes.do(send_broadcast_remind, wechat=wechat)
     # schedule.every().day.at('08:00').do(send_morning_msg, wechat=wechat)
     # schedule.every().day.at('11:20').do(send_noon_msg, wechat=wechat)
     # schedule.every().day.at('15:00').do(send_everyday_a_song, wechat=wechat)
@@ -52,6 +54,12 @@ def schedules(wechat):
             time.sleep(0.5)
     except Exception as e:
         print(e)
+
+
+def send_broadcast_remind(wechat):
+    room_id = 25059330
+    msg = Bilibili().broadcast_remind(room_id)
+    wechat.send_text(to_wxid=bf().pipi_room, content=msg)
 
 
 def send_morning_msg(wechat):
