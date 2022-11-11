@@ -59,8 +59,8 @@ def schedules(wechat):
 def send_broadcast_remind(wechat):
     room_id = 25059330
     msg = Bilibili().broadcast_remind(room_id)
-    wechat.send_text(to_wxid=bf().pipi_room, content=msg)
-
+    if msg:
+        wechat.send_text(to_wxid=bf().pipi_room, content=msg)
 
 def send_morning_msg(wechat):
     msg = '各位打工人们，早上好！\n'

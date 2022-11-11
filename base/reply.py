@@ -15,6 +15,7 @@ from api.tianapi import TianApi
 from api.wanplus import WanPlus
 from api.yuanshen import Yuanshen
 from csgo.csgo import Csgo
+from api.bilibili import Bilibili
 
 from base.base import BaseFunc
 from game import mine
@@ -167,6 +168,15 @@ class Reply(BaseFunc):
             print('start random')
             res = Ticket().get_lucky_round()
             self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+
+        elif msg == 'uzi直播':
+            room_id = 25059330
+            res = Bilibili().broadcast_remind(room_id)
+            if res:
+                self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
+            else:
+                res = f'{room_id}未开播。'
+                self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
         # elif msg == '购买彩票':
         #     res = Ticket().get_num_and_save(from_wxid)

@@ -1,7 +1,9 @@
 import requests
 
+from base.base import BaseFunc
 
-class Bilibili:
+
+class Bilibili(BaseFunc):
     def get_response(self, room_id):
         try:
             url = f'https://api.live.bilibili.com/xlive/web-room/v2/index/getRoomPlayInfo?room_id={room_id}' \
@@ -37,6 +39,8 @@ class Bilibili:
                   f'https://live.bilibili.com/{room_id}'
             print(msg)
             return msg
+        else:
+            return 0
 
 
 if __name__ == '__main__':
