@@ -31,7 +31,7 @@ schedule.every().minute.at(":17").do(job)
 
 
 def schedules(wechat):
-    # schedule.every(5).minutes.do(send_broadcast_remind, wechat=wechat)
+    schedule.every(5).minutes.do(send_broadcast_remind, wechat=wechat)
     # schedule.every().day.at('08:00').do(send_morning_msg, wechat=wechat)
     # schedule.every().day.at('11:20').do(send_noon_msg, wechat=wechat)
     # schedule.every().day.at('15:00').do(send_everyday_a_song, wechat=wechat)
