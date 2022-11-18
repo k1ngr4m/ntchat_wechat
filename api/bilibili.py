@@ -88,6 +88,11 @@ class Bilibili:
             'room_id': 25059330,
             'room_title': '',
             'live_status': 1
+        },{
+            'name': 'kinko',
+            'room_id': 48901,
+            'room_title': '',
+            'live_status': 1
         }]
 
         with open(self.filename, 'w', encoding='utf-8') as f:
