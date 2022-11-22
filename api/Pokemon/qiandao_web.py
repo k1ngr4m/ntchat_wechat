@@ -8,6 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from PIL import Image
 
+
 class QiandaoWeb:
     def __init__(self):
         chrome_options = webdriver.ChromeOptions()
@@ -54,7 +55,7 @@ class QiandaoWeb:
 
         self.driver.set_window_size(width + 500, height + 400)
 
-        path = rf'E:\Python git\ntchat_wechat\data\pokemon'
+        path = rf'C:\py\git\PythonProject\ntchat_wechat\data\pokemon'
 
         detail_info = self.driver.find_element(By.CLASS_NAME, 'detail-info')
 
@@ -86,9 +87,11 @@ class QiandaoWeb:
         img_7 = path + fr'\{name}_evolutionary_links.png'
         evolutionary_links.screenshot(path + fr'\{name}_evolutionary_links.png')
 
+        self.driver.close()
         # png.screenshot(path)
         print('success')
-        self.image_Splicing(img_1, img_2, img_3, img_4, img_5, img_6, img_7, path, name)
+        png_path = self.image_Splicing(img_1, img_2, img_3, img_4, img_5, img_6, img_7, path, name)
+        return png_path
 
     def image_Splicing(self, img_1, img_2, img_3, img_4, img_5, img_6, img_7, path, name, flag='y'):
         print(f"开始拼图{name}")
@@ -105,9 +108,11 @@ class QiandaoWeb:
         #     joint = Image.new("RGB", (size1[0] + size2[0], size1[1]))
         #     loc1, loc2 = (0, 0), (size1[0], 0)
         # else:
-        joint = Image.new("RGB", (size1[0], size2[1] + size1[1] + size3[1] + size4[1] + size5[1] + size6[1] + size7[1]), "white")
+        joint = Image.new("RGB", (size1[0], size2[1] + size1[1] + size3[1] + size4[1] + size5[1] + size6[1] + size7[1]),
+                          "white")
         loc1, loc2, loc3 = (0, 0), (50, size1[1]), (0, size1[1] + size2[1])
-        loc4, loc5, loc6 = (0, loc3[1] + size3[1]), (0, loc3[1] + size3[1] + size4[1]), (0, loc3[1] + size3[1] + size4[1] + size5[1])
+        loc4, loc5, loc6 = (0, loc3[1] + size3[1]), (0, loc3[1] + size3[1] + size4[1]), (
+        0, loc3[1] + size3[1] + size4[1] + size5[1])
         loc7 = (0, loc6[1] + size6[1])
 
         joint.paste(img1, loc1)
@@ -122,6 +127,7 @@ class QiandaoWeb:
 
         joint.save(png_path)
         print(f"{name}拼图成功！")
+        return png_path
 
 
 if __name__ == '__main__':

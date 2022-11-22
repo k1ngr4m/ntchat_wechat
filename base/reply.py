@@ -7,6 +7,7 @@ import api
 from api import op_gg
 from api.APISpace import emotional_analysis
 from api.APISpace.emotional_analysis import EmotionalAnalysis
+from api.Pokemon.qiandao_web import QiandaoWeb
 from api.free import FreeApi
 from api.hupu import Hupu
 from api.muxiaoguo import MuxiaoguoApi
@@ -86,6 +87,12 @@ class Reply(BaseFunc):
                 wechat.send_image(to_wxid=room_wxid, file_path=weapon_path)
                 path = Yuanshen().get_item()
                 wechat.send_image(to_wxid=room_wxid, file_path=path)
+
+        elif '宝可梦 ' in msg:
+            name = msg.replace('宝可梦 ', '')
+            png_path = QiandaoWeb().search_pokemon_by_name(name)
+            print(png_path)
+            wechat.send_image(to_wxid=room_wxid, file_path=png_path)
 
         elif msg == 'print_user_money':
             msg = Csgo().print_user_money(wechat, room_wxid)
