@@ -56,7 +56,8 @@ class QiandaoWeb:
 
             self.driver.set_window_size(width + 500, height + 400)
 
-            path = rf'C:\py\git\PythonProject\ntchat_wechat\data\pokemon'
+            pngs_path = rf'C:\py\git\PythonProject\ntchat_wechat\data\pokemon'
+            path = rf'C:\py\git\PythonProject\ntchat_wechat\data\pokemon\temp'
 
             detail_info = self.driver.find_element(By.CLASS_NAME, 'detail-info')
 
@@ -91,7 +92,7 @@ class QiandaoWeb:
             self.driver.close()
             # png.screenshot(path)
             print('success')
-            png_path = self.image_Splicing(img_1, img_2, img_3, img_4, img_5, img_6, img_7, path, name)
+            png_path = self.image_Splicing(img_1, img_2, img_3, img_4, img_5, img_6, img_7, pngs_path, name)
             return png_path
         except Exception as e:
             print(e)
