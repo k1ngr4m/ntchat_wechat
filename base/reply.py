@@ -178,6 +178,11 @@ class Reply(BaseFunc):
                 res = f'{room_id}未开播。'
                 self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
 
+        elif msg == '属性相克':
+            file_name = r'C:\py\git\PythonProject\ntchat_wechat\data\proagainst.jpg'
+            self.send_imagemsg(wechat, room_wxid, from_wxid, file_name, file_name)
+
+
         # elif msg == '购买彩票':
         #     res = Ticket().get_num_and_save(from_wxid)
         #     self.send_textmsg(wechat, room_wxid, from_wxid, res, res)
