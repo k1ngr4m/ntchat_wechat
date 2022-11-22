@@ -74,8 +74,12 @@ class QiandaoWeb:
             egg.screenshot(path + fr'\{name}_egg.png')
 
             else_info = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[5]')
-            img_4 = path + fr'\{name}_else_info.png'
-            else_info.screenshot(path + fr'\{name}_else_info.png')
+            if else_info.size['height'] != 0:
+                print(else_info.size)
+                img_4 = path + fr'\{name}_else_info.png'
+                else_info.screenshot(path + fr'\{name}_else_info.png')
+            else:
+                img_4 = r'C:\py\git\PythonProject\ntchat_wechat\data\pokemon\temp\temp.png'
 
             species_strength = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/ul')
             img_5 = path + fr'\{name}_species_strength.png'
@@ -136,4 +140,4 @@ class QiandaoWeb:
 
 if __name__ == '__main__':
     qdweb = QiandaoWeb()
-    qdweb.search_pokemon_by_name('海豚侠')
+    qdweb.search_pokemon_by_name('超级路卡利欧')
