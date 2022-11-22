@@ -2,6 +2,7 @@
 import json
 import random
 import re
+import os
 
 import api
 from api import op_gg
@@ -90,9 +91,13 @@ class Reply(BaseFunc):
 
         elif '宝可梦 ' in msg:
             name = msg.replace('宝可梦 ', '')
-            png_path = QiandaoWeb().search_pokemon_by_name(name)
-            print(png_path)
-            wechat.send_image(to_wxid=room_wxid, file_path=png_path)
+            png_path = fr'C:\py\git\PythonProject\ntchat_wechat\data\pokemon\{name}.png'
+            if os.path.exists(png_path):
+                wechat.send_image(to_wxid=room_wxid, file_path=png_path)
+            else:
+                png_path = QiandaoWeb().search_pokemon_by_name(name)
+                print(png_path)
+                wechat.send_image(to_wxid=room_wxid, file_path=png_path)
 
         elif msg == 'print_user_money':
             msg = Csgo().print_user_money(wechat, room_wxid)

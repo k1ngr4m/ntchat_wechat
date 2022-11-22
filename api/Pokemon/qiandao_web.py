@@ -1,6 +1,7 @@
 import json
 import random
 import time
+import os
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -86,7 +87,7 @@ class QiandaoWeb:
             img_5 = path + fr'\{name}_species_strength.png'
             species_strength.screenshot(path + fr'\{name}_species_strength.png')
 
-            self.roll_window_to_bottom(self.driver)
+            # self.roll_window_to_bottom(self.driver)
 
             attribute_restraint = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[6]')
             img_6 = path + fr'\{name}_attribute_restraint.png'
