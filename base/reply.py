@@ -90,26 +90,6 @@ class Reply(BaseFunc):
 
         elif '宝可梦 ' in msg:
             self.pokemon(msg, wechat, room_wxid, from_wxid)
-            # name = msg.replace('宝可梦 ', '')
-            # png_path = fr'C:\py\git\PythonProject\ntchat_wechat\data\pokemon\{name}.png'
-            # png_catch = fr'C:\py\git\PythonProject\ntchat_wechat\data\pokemon\{name}_catch.png'
-            # if os.path.exists(png_path):
-            #     wechat.send_image(to_wxid=room_wxid, file_path=png_path)
-            # else:
-            #     png_path = QiandaoWeb().search_pokemon_main(name)
-            #     print(png_path)
-            #     wechat.send_image(to_wxid=room_wxid, file_path=png_path)
-            #
-            # if os.path.exists(png_catch):
-            #     wechat.send_image(to_wxid=room_wxid, file_path=png_catch)
-            # else:
-            #     png_catch = QiandaoWeb().search_pokemon_catch(name)
-            #     print(png_catch)
-            #     if png_catch:
-            #         wechat.send_image(to_wxid=room_wxid, file_path=png_catch)
-            #     else:
-            #         msg = '朱紫未找到该宝可梦！'
-            #         self.send_textmsg(wechat, room_wxid, from_wxid, msg, msg)
 
         elif msg == 'print_user_money':
             msg = Csgo().print_user_money(wechat, room_wxid)
