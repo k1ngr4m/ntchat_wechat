@@ -9,7 +9,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from PIL import Image
+import urllib.request
+import os
 
+import urllib.request
 
 class QiandaoWeb:
     def __init__(self):
@@ -35,6 +38,18 @@ class QiandaoWeb:
 
         self.search_box = self.driver.find_element(By.CLASS_NAME, 'searchbox')
 
+    def search_pokemon_main(self, name):
+        self.search_pokemon_by_name(name)
+        png_path = self.screenshot_main(name)
+        self.driver.close()
+        return png_path
+
+    def search_pokemon_catch(self, name):
+        self.search_pokemon_by_name(name)
+        png_path = self.screenshot_catch(name)
+        self.driver.close()
+        return png_path
+
     def search_pokemon_by_name(self, name):
         try:
             time.sleep(1)
@@ -44,8 +59,13 @@ class QiandaoWeb:
 
             time.sleep(1)
             self.driver.find_element(By.XPATH, "//li[starts-with(@class, 'item')]").click()
-
             time.sleep(1)
+        except Exception as e:
+            print(e)
+
+    def screenshot_main(self, name):
+        try:
+            # time.sleep(1)
             width = self.driver.execute_script(
                 "return Math.max(document.body.scrollWidth, document.body.offsetWidth, "
                 "document.documentElement.clientWidth, document.documentElement.scrollWidth, "
@@ -97,13 +117,30 @@ class QiandaoWeb:
             img_7 = path + fr'\{name}_evolutionary_links.png'
             evolutionary_links.screenshot(path + fr'\{name}_evolutionary_links.png')
 
-            self.driver.close()
+            # self.driver.close()
             # png.screenshot(path)
             print('success')
             png_path = self.image_Splicing(img_1, img_2, img_3, img_4, img_5, img_6, img_7, pngs_path, name)
             return png_path
         except Exception as e:
             print(e)
+
+    def screenshot_catch(self, name):
+        self.driver.find_element(By.XPATH, "//span[text()=' 捕捉地点 ']").click()
+
+        # availability_group = self.driver.find_element(By.CLASS_NAME, 'availability-group')
+        info = self.driver.find_element(By.XPATH, '//*[@class="availability-group"]/div[1]')
+        info1 = self.driver.find_element(By.XPATH, '//*[@class="availability-group"]/div[1]/div[1]')
+        info_title = info1.text
+        print(info_title)
+        if info_title == '朱紫':
+            img = info.find_element(By.TAG_NAME, 'img')
+            src_url = img.get_attribute('src')
+            # print(src)
+            file_name = self.pic(src_url, name)
+            return file_name
+        else:
+            return False
 
     def image_Splicing(self, img_1, img_2, img_3, img_4, img_5, img_6, img_7, path, name, flag='y'):
         print(f"开始拼图{name}")
@@ -124,7 +161,7 @@ class QiandaoWeb:
                           "white")
         loc1, loc2, loc3 = (0, 0), (50, size1[1]), (0, size1[1] + size2[1])
         loc4, loc5, loc6 = (0, loc3[1] + size3[1]), (0, loc3[1] + size3[1] + size4[1]), (
-        0, loc3[1] + size3[1] + size4[1] + size5[1])
+            0, loc3[1] + size3[1] + size4[1] + size5[1])
         loc7 = (0, loc6[1] + size6[1])
 
         joint.paste(img1, loc1)
@@ -163,7 +200,38 @@ class QiandaoWeb:
                 break
             original_top = check_height
 
+    # 图片转换成文件
+    def pic(self, url, pic_name):
+        img_url = url
+        file_path = rf'C:\py\git\PythonProject\ntchat_wechat\data\pokemon'
+        file_name = pic_name + '_catch'
+        try:
+            # 是否有这个路径
+            if not os.path.exists(file_path):
+                # 创建路径
+                os.makedirs(file_path)
+            # 获得图片后缀
+            file_suffix = os.path.splitext(img_url)[1]
+            print(file_suffix)
+            # 拼接图片名（包含路径）
+            filename = '{}{}{}{}'.format(file_path, os.sep, file_name, file_suffix)
+            print(filename)
+            opener = urllib.request.build_opener()
+            opener.addheaders = [(
+                'User-Agent',
+                'Mozilla / 5.0 (Windows NT 6.1; WOW64) AppleWebKit / 537.36(KHTML, likeGecko) Chrome / '
+                '36.0.1941.0Safari / 537.36 '
+            )]
+            urllib.request.install_opener(opener)
+            # 下载图片，并保存到文件夹中
+            urllib.request.urlretrieve(img_url, filename=filename)
+            return filename
+        except IOError as e:
+            print(f"IOError:{e}")
+        except Exception as e:
+            print("Exception")
+
 
 if __name__ == '__main__':
     qdweb = QiandaoWeb()
-    qdweb.search_pokemon_by_name('超级路卡利欧')
+    qdweb.search_pokemon_catch('小火龙')
