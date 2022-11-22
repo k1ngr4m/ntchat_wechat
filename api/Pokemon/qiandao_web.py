@@ -34,64 +34,67 @@ class QiandaoWeb:
         self.search_box = self.driver.find_element(By.CLASS_NAME, 'searchbox')
 
     def search_pokemon_by_name(self, name):
-        time.sleep(1)
-        self.search_box.send_keys(name)
-        time.sleep(1)
-        self.search_box.send_keys(' ')
+        try:
+            time.sleep(1)
+            self.search_box.send_keys(name)
+            time.sleep(1)
+            self.search_box.send_keys(' ')
 
-        time.sleep(1)
-        self.driver.find_element(By.XPATH, "//li[starts-with(@class, 'item')]").click()
+            time.sleep(1)
+            self.driver.find_element(By.XPATH, "//li[starts-with(@class, 'item')]").click()
 
-        time.sleep(1)
-        width = self.driver.execute_script(
-            "return Math.max(document.body.scrollWidth, document.body.offsetWidth, "
-            "document.documentElement.clientWidth, document.documentElement.scrollWidth, "
-            "document.documentElement.offsetWidth);")
-        height = self.driver.execute_script(
-            "return Math.max(document.body.scrollHeight, document.body.offsetHeight, "
-            "document.documentElement.clientHeight, document.documentElement.scrollHeight, "
-            "document.documentElement.offsetHeight);")
-        print(width, height)
+            time.sleep(1)
+            width = self.driver.execute_script(
+                "return Math.max(document.body.scrollWidth, document.body.offsetWidth, "
+                "document.documentElement.clientWidth, document.documentElement.scrollWidth, "
+                "document.documentElement.offsetWidth);")
+            height = self.driver.execute_script(
+                "return Math.max(document.body.scrollHeight, document.body.offsetHeight, "
+                "document.documentElement.clientHeight, document.documentElement.scrollHeight, "
+                "document.documentElement.offsetHeight);")
+            print(width, height)
 
-        self.driver.set_window_size(width + 500, height + 400)
+            self.driver.set_window_size(width + 500, height + 400)
 
-        path = rf'C:\py\git\PythonProject\ntchat_wechat\data\pokemon'
+            path = rf'C:\py\git\PythonProject\ntchat_wechat\data\pokemon'
 
-        detail_info = self.driver.find_element(By.CLASS_NAME, 'detail-info')
+            detail_info = self.driver.find_element(By.CLASS_NAME, 'detail-info')
 
-        detail_header = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[1]')
-        img_1 = path + fr'\{name}_detail_header.png'
-        detail_header.screenshot(path + fr'\{name}_detail_header.png')
+            detail_header = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[1]')
+            img_1 = path + fr'\{name}_detail_header.png'
+            detail_header.screenshot(path + fr'\{name}_detail_header.png')
 
-        ability = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[3]')
-        img_2 = path + fr'\{name}_ability.png'
-        ability.screenshot(path + fr'\{name}_ability.png')
+            ability = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[3]')
+            img_2 = path + fr'\{name}_ability.png'
+            ability.screenshot(path + fr'\{name}_ability.png')
 
-        egg = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[4]')
-        img_3 = path + fr'\{name}_egg.png'
-        egg.screenshot(path + fr'\{name}_egg.png')
+            egg = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[4]')
+            img_3 = path + fr'\{name}_egg.png'
+            egg.screenshot(path + fr'\{name}_egg.png')
 
-        else_info = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[5]')
-        img_4 = path + fr'\{name}_else_info.png'
-        else_info.screenshot(path + fr'\{name}_else_info.png')
+            else_info = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[5]')
+            img_4 = path + fr'\{name}_else_info.png'
+            else_info.screenshot(path + fr'\{name}_else_info.png')
 
-        species_strength = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/ul')
-        img_5 = path + fr'\{name}_species_strength.png'
-        species_strength.screenshot(path + fr'\{name}_species_strength.png')
+            species_strength = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/ul')
+            img_5 = path + fr'\{name}_species_strength.png'
+            species_strength.screenshot(path + fr'\{name}_species_strength.png')
 
-        attribute_restraint = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[6]')
-        img_6 = path + fr'\{name}_attribute_restraint.png'
-        attribute_restraint.screenshot(path + fr'\{name}_attribute_restraint.png')
+            attribute_restraint = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[6]')
+            img_6 = path + fr'\{name}_attribute_restraint.png'
+            attribute_restraint.screenshot(path + fr'\{name}_attribute_restraint.png')
 
-        evolutionary_links = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[7]')
-        img_7 = path + fr'\{name}_evolutionary_links.png'
-        evolutionary_links.screenshot(path + fr'\{name}_evolutionary_links.png')
+            evolutionary_links = detail_info.find_element(By.XPATH, '//*[@class="detail-info"]/div[7]')
+            img_7 = path + fr'\{name}_evolutionary_links.png'
+            evolutionary_links.screenshot(path + fr'\{name}_evolutionary_links.png')
 
-        self.driver.close()
-        # png.screenshot(path)
-        print('success')
-        png_path = self.image_Splicing(img_1, img_2, img_3, img_4, img_5, img_6, img_7, path, name)
-        return png_path
+            self.driver.close()
+            # png.screenshot(path)
+            print('success')
+            png_path = self.image_Splicing(img_1, img_2, img_3, img_4, img_5, img_6, img_7, path, name)
+            return png_path
+        except Exception as e:
+            print(e)
 
     def image_Splicing(self, img_1, img_2, img_3, img_4, img_5, img_6, img_7, path, name, flag='y'):
         print(f"开始拼图{name}")
