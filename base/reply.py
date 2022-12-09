@@ -281,7 +281,7 @@ class Reply(BaseFunc):
         if os.path.exists(png_path):
             wechat.send_image(to_wxid=room_wxid, file_path=png_path)
         else:
-            png_path = QiandaoWeb().search_pokemon_main(name)
+            png_path = QiandaoWeb().search_pokemon_main(name)   
             print(png_path)
             wechat.send_image(to_wxid=room_wxid, file_path=png_path)
 
